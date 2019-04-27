@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UIControl;
+using System;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    public Action<int> OnScoredGoalEvent;
+    public Action OnCountdownFinishedEvent;
+
     [SerializeField]
     private Ball ballPrefab;
     [SerializeField]
@@ -24,6 +29,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private StoryModeManager storyModeManager;
+    [SerializeField]
+    private ChallengeModeManager challengeModeManager;
 
     [SerializeField]
     private Vector3 ballStartPosition;
@@ -45,6 +52,8 @@ public class GameManager : MonoBehaviour
     {
 
         storyModeManager.Initialize(this);
+        challengeModeManager.Initialize(this);
+
         goalPlayer1.OnScoredGoal += OnScoreGoal;
         goalPlayer2.OnScoredGoal += OnScoreGoal;
         scoreManager.Initialize();
@@ -60,6 +69,26 @@ public class GameManager : MonoBehaviour
         storyModeManager.StartNextLevel();
     }
 
+    public void StartChallengeMode()
+    {
+        challengeModeManager.StartChallenge();
+    }
+
+    public int GetChallengeScore()
+    {
+        return challengeModeManager.TimeScore;
+    }
+
+    public void StartTimer(TextMeshProUGUI timerText, bool IsCountDown)
+    {
+        if(IsCountDown)
+            timerCountdown.StartCountdown(timerText, 20);
+        else
+        {
+            timerCountdown.StartTimer(timerText);
+        }
+    }
+
     public void StartGame()
     {
         if (ball == null)
@@ -69,7 +98,7 @@ public class GameManager : MonoBehaviour
             ball.Initialize(ballStartPosition);
         }
 
-        timerCountdown.StartCountdown(20);
+        //timerCountdown.StartCountdown(20);
         GameObject HumanPlayer = Instantiate(HumanPlayerPrefab);
         //Instantiate(AIPlayerPrefab);
         skillHudController.Initialize(HumanPlayer);
@@ -78,22 +107,27 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         ball.DisableBall();
-        ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.LevelFinishedLayout);
+       
 
     }
 
     private void OnScoreGoal(int player)
     {
+        
         scoreManager.UpdateScoreGoal(player, 1);
         ball.GoalScored();
         ball.RespawnBall();
+
+        if (OnScoredGoalEvent != null)
+            OnScoredGoalEvent.Invoke(player);
 
     }
 
     private void OnCountdownFinished()
     {
+        if (OnCountdownFinishedEvent != null)
+            OnCountdownFinishedEvent.Invoke();
 
-        GameOver();
+        //GameOver();
     }
 }

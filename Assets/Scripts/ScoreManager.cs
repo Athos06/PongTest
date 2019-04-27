@@ -15,8 +15,8 @@ public class ScoreManager : MonoBehaviour
 
     public void Initialize()
     {
-        player1ScoreText.text = 0.ToString();
-        player2ScoreText.text = 0.ToString();
+        player1ScoreText.text = 0.ToString("00");
+        player2ScoreText.text = 0.ToString("00");
     }
 
     public void UpdateScoreGoal(int player, int score)

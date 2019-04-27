@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace UIControl
 {
-    //Delete all the enums (not UNASSIGNED) and add the ones you need for the the project
     public enum UILayoutsIDs
     {
         UNASSIGNED,
         MainMenuLayout,
         HUDLayout,
-        LevelFinishedLayout
+        StoryLevelFinishedLayout,
+        ChallengeLevelFinishedLayout,
+        NewHighScoreLayout
     }
 
     public enum UIPanelsIDs
@@ -18,7 +19,9 @@ namespace UIControl
         UNASSIGNED,
         MainMenuPanel,
         SkillHUDPanel,
-        LevelFinished
-        
+        StoryLevelFinishedPanel,
+        ChallengeLevelFinishedPanel,
+        NewHighScorePanel
+
     }
 }

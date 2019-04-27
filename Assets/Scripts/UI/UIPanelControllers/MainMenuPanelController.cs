@@ -20,11 +20,19 @@ public class MainMenuPanelController : MonoBehaviour
     {
         startStoryModeButton.onClick.RemoveAllListeners();
         startStoryModeButton.onClick.AddListener(OnStartStoryModeClicked);
+        startChallengeModeButton.onClick.RemoveAllListeners();
+        startChallengeModeButton.onClick.AddListener(OnStartChallengeModeClicked);
     }
     
     private void OnStartStoryModeClicked()
     {
         ReferencesHolder.Instance.GameManager.StartStoryMode();
+        ReferencesHolder.Instance.UIStateManager.CloseAll();
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+    }
+    private void OnStartChallengeModeClicked()
+    {
+        ReferencesHolder.Instance.GameManager.StartChallengeMode();
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
 

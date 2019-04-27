@@ -24,7 +24,6 @@ public class SkillHudController : MonoBehaviour
         if (!Initialized)
             return;
 
-        Debug.Log(1 - characterSkillController.CurrentCooldownLeft());
         coolDownBar.fillAmount = 1 - characterSkillController.CurrentCooldownLeft();
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UIControl;
 
 public class StoryModeManager : MonoBehaviour
 {
@@ -11,6 +13,9 @@ public class StoryModeManager : MonoBehaviour
     public CharacterController enemy1Prefab;
     public CharacterController enemy2Prefab;
     public CharacterController enemy3Prefab;
+
+    [SerializeField]
+    private TextMeshProUGUI timerText;
 
     public int level = 0;
     public int GetLevel()
@@ -30,7 +35,9 @@ public class StoryModeManager : MonoBehaviour
 
     public void StartLevel(int level)
     {
+        gameManager.OnCountdownFinishedEvent += OnCountdownFinishedEvent;
         gameManager.StartGame();
+        gameManager.StartTimer(timerText, true);
         CharacterController AIPlayer;
         switch (level)
         {
@@ -46,4 +53,10 @@ public class StoryModeManager : MonoBehaviour
         }
     }
 
+    private void OnCountdownFinishedEvent()
+    {
+        gameManager.GameOver();
+        ReferencesHolder.Instance.UIStateManager.CloseAll();
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.StoryLevelFinishedLayout);
+    }
 }

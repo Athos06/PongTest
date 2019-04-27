@@ -4,25 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UIControl;
 
-public class GameOverMenuPanelController : MonoBehaviour
+
+public class ChallengeLevelFinishedPanelController : MonoBehaviour
 {
     [SerializeField]
-    private Button continueButton;
+    private Button restartButton;
     [SerializeField]
     private Button exitToMainMenuButton;
 
     private void Start()
     {
-        continueButton.onClick.RemoveAllListeners();
-        continueButton.onClick.AddListener(OnContinueButtonClicked);
+        restartButton.onClick.RemoveAllListeners();
+        restartButton.onClick.AddListener(OnContinueButtonClicked);
         exitToMainMenuButton.onClick.RemoveAllListeners();
         exitToMainMenuButton.onClick.AddListener(OnExitToMainMenuClicled);
     }
 
     private void OnContinueButtonClicked()
     {
-        ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.GameManager.StartGame();
+
     }
 
     private void OnExitToMainMenuClicled()

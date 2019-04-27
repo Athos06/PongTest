@@ -29,6 +29,12 @@ public class ReferencesHolder : MonoBehaviour
         get { return gameManager; }
     }
 
+    [SerializeField]
+    private LeadersBoardManager leadersBoardManager;
+    public LeadersBoardManager LeadersBoardManager
+    {
+        get { return leadersBoardManager; }
+    }
     private void Awake()
     {
         if (instance == null)
@@ -39,6 +45,7 @@ public class ReferencesHolder : MonoBehaviour
     void Start()
     {
         uiStateManager.Initialize();
+        LeadersBoardManager.Initialize();
         gameManager.Initialize();
     }
 
