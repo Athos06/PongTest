@@ -13,12 +13,6 @@ public class Ball : MonoBehaviour
 
     private Vector3 startPosition;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-      
-
-    }
 
     public void Initialize(Vector3 startPosition)
     {
@@ -26,13 +20,16 @@ public class Ball : MonoBehaviour
             rigidBody = GetComponent<Rigidbody>();
 
         this.startPosition = startPosition;
-        LaunchBall();
+        //LaunchBall();
     }
 
+    private bool ballStarted = false;
     //// Update is called once per frame
     void Update()
     {
 
+        if (!ballStarted)
+            return;
 
         if (Mathf.Abs(rigidBody.velocity.z) < 8)
         {
@@ -53,8 +50,10 @@ public class Ball : MonoBehaviour
 
 
     [ContextMenu("DebugThrowBall")]
-    void LaunchBall()
+    public void LaunchBall()
     {
+        ballStarted = true;
+        gameObject.SetActive(true);
         transform.position = startPosition;
         //transform.position = Vector3.zero;
         //Ball Chooses a direction

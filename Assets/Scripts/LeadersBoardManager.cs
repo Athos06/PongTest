@@ -77,11 +77,11 @@ public class LeadersBoardManager : MonoBehaviour
     {
         leaderBoardList = LeaderboardSystem.LoadHighScore();
 
-        //debug
-        foreach (var hs in LeaderboardSystem.LoadHighScore())
-        {
-            Debug.Log(hs.playerName);
-        }
+        ////debug
+        //foreach (var hs in LeaderboardSystem.LoadHighScore())
+        //{
+        //    Debug.Log(hs.playerName);
+        //}
     }
 
 }

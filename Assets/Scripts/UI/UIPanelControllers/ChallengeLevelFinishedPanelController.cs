@@ -22,12 +22,16 @@ public class ChallengeLevelFinishedPanelController : MonoBehaviour
 
     private void OnContinueButtonClicked()
     {
-
+        //debug
+        ReferencesHolder.Instance.UIStateManager.CloseAll();
+        ReferencesHolder.Instance.GameManager.RestartGame();
     }
 
     private void OnExitToMainMenuClicled()
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
+        ReferencesHolder.Instance.GameManager.FinishGame();
+
+        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
     }
 }

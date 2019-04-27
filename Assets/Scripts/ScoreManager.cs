@@ -6,7 +6,7 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     [SerializeField]
-    int[] playerScore = { 0, 0 };
+    int[] playersScore = { 0, 0 };
 
     [SerializeField]
     TextMeshProUGUI player1ScoreText;
@@ -17,16 +17,23 @@ public class ScoreManager : MonoBehaviour
     {
         player1ScoreText.text = 0.ToString("00");
         player2ScoreText.text = 0.ToString("00");
+        for(int i = 0; i< playersScore.Length; i++ ) playersScore[i] = 0;
+    }
+
+    public void ResetScore()
+    {
+        player1ScoreText.text = 0.ToString("00");
+        player2ScoreText.text = 0.ToString("00");
+        for (int i = 0; i < playersScore.Length; i++) playersScore[i] = 0;
     }
 
     public void UpdateScoreGoal(int player, int score)
     {
-        playerScore[player] += score;
-        Debug.Log("Player  " + player);
+        playersScore[player] += score;
         if(player == 0)
-            player1ScoreText.text = playerScore[player].ToString();
+            player1ScoreText.text = playersScore[player].ToString("00");
         else
-            player2ScoreText.text = playerScore[player].ToString();
+            player2ScoreText.text = playersScore[player].ToString("00");
     }
 
 

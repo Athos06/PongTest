@@ -20,8 +20,6 @@ public class NewHighScorePanelController : MonoBehaviour
 
     private void OnContinueButtonClicked()
     {
-        Debug.Log("on continue button clicked");
-
         ReferencesHolder.Instance.LeadersBoardManager.AddNewHighScore
             (inputField.text, ReferencesHolder.Instance.GameManager.GetChallengeScore());
 

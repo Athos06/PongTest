@@ -35,6 +35,21 @@ public class ReferencesHolder : MonoBehaviour
     {
         get { return leadersBoardManager; }
     }
+
+    [SerializeField]
+    private ScreenFader screenFader;
+    public ScreenFader ScreenFader
+    {
+        get { return screenFader; }
+    }
+
+    [SerializeField]
+    private CamerasController camerasController;
+    public CamerasController CamerasController
+    {
+        get { return camerasController; }
+    }
+
     private void Awake()
     {
         if (instance == null)

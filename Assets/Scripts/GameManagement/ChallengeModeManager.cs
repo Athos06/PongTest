@@ -4,7 +4,7 @@ using UnityEngine;
 using UIControl;
 using TMPro;
 
-public class ChallengeModeManager : MonoBehaviour
+public class ChallengeModeManager : MonoBehaviour, IGameMode
 {
 
     GameManager gameManager;
@@ -19,10 +19,16 @@ public class ChallengeModeManager : MonoBehaviour
     private GameObject challengeModeScoreboard;
     [SerializeField]
     private GameObject storyModeScoreboard;
-
+    [SerializeField]
+    private float introLength = 3.0f;
+    [SerializeField]
+    private CharacterController HumanPlayerPrefab;
 
     [SerializeField]
     private TextMeshProUGUI timerText;
+
+
+    private CharacterController player1;
 
     public void Initialize(GameManager gameManager)
     {
@@ -30,17 +36,38 @@ public class ChallengeModeManager : MonoBehaviour
         
     }
 
-    public void StartChallenge()
+    public void StartGameMode()
     {
+
         gameManager.OnScoredGoalEvent += OnScoredGoal;
+        gameManager.OnGameStarted += OnGameStarted;
+
         wall.SetActive(true);
         challengeModeScoreboard.SetActive(true);
         storyModeScoreboard.SetActive(false);
-        gameManager.StartTimer(timerText, false);
-        gameManager.StartGame();
+
+        player1 = Instantiate(HumanPlayerPrefab);
+
+        ReferencesHolder.Instance.CamerasController.SetEnemyIntroCamera();
+        ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartIntro);
+
     }
 
-    private void GameOver()
+    private void StartIntro()
+    {
+        StartCoroutine(PlayIntro());
+    }
+
+    private IEnumerator PlayIntro()
+    {
+        ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.EnemyNamePanel);
+        yield return new WaitForSeconds(introLength);
+        ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.EnemyNamePanel);
+        gameManager.StartGame();
+        yield return null;
+    }
+
+    public void GameModeOver()
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.ChallengeLevelFinishedLayout);
@@ -48,13 +75,43 @@ public class ChallengeModeManager : MonoBehaviour
         {
             Debug.Log("new score, we should show insert name for leaderboard");
             ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.NewHighScoreLayout, true);
-
         }
+
         gameManager.GameOver();
+    }
+
+    public void FinishGameMode()
+    {
+        if(player1 != null)
+        {
+            Destroy(player1.gameObject);
+            player1 = null;
+        }
+
+
+        ReferencesHolder.Instance.ScreenFader.StartFadeIn
+            (() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });
+    }
+
+    public void RestartGameMode()
+    {
+        if (player1 != null)
+        {
+            Destroy(player1.gameObject);
+            player1 = null;
+        }
+
+        gameManager.StartGameMode(GameManager.GameModes.Challenge);
+
     }
 
     private void OnScoredGoal(int player)
     {
-        GameOver();
+        GameModeOver();
+    }
+
+    private void OnGameStarted()
+    {
+        gameManager.StartTimer(timerText, false);
     }
 }

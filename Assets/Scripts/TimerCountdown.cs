@@ -24,13 +24,13 @@ public class TimerCountdown : MonoBehaviour
         timerCoroutine = StartCoroutine(CountdownCoroutine());
     }
     
-    public void StopCountdown()
-    {
-        if(timerCoroutine != null)
-        {
-            StopCoroutine(timerCoroutine);
-        }
-    }
+    //public void StopCountdown()
+    //{
+    //    if(timerCoroutine != null)
+    //    {
+    //        StopCoroutine(timerCoroutine);
+    //    }
+    //}
 
 
     public void StartTimer(TextMeshProUGUI timerText)
@@ -45,6 +45,7 @@ public class TimerCountdown : MonoBehaviour
     {
         if (timerCoroutine != null)
         {
+            Debug.Log("TRYING TO STOP TIMER");
             StopCoroutine(timerCoroutine);
         }
     }

@@ -26,15 +26,15 @@ public class MainMenuPanelController : MonoBehaviour
     
     private void OnStartStoryModeClicked()
     {
-        ReferencesHolder.Instance.GameManager.StartStoryMode();
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
     }
     private void OnStartChallengeModeClicked()
     {
-        ReferencesHolder.Instance.GameManager.StartChallengeMode();
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Challenge);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
 
     }
 }

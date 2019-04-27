@@ -21,7 +21,9 @@ namespace UIControl
         SkillHUDPanel,
         StoryLevelFinishedPanel,
         ChallengeLevelFinishedPanel,
-        NewHighScorePanel
+        NewHighScorePanel,
+        StartCountDownPanel,
+        EnemyNamePanel
 
     }
 }

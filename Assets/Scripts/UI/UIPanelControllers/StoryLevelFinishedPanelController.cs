@@ -22,12 +22,14 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
     private void OnContinueButtonClicked()
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.GameManager.StartGame();
+        //debug
+        ReferencesHolder.Instance.GameManager.RestartGame();
     }
 
     private void OnExitToMainMenuClicled()
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
+        ReferencesHolder.Instance.GameManager.FinishGame();
+        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
     }
 }
