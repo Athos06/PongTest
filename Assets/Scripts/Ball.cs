@@ -83,7 +83,7 @@ public class Ball : MonoBehaviour
         //Check results of second coin toss
         if (yDirection == 0)
         {
-            launchDirection.z = -8f;
+            launchDirection.z = 8f;
         }
         if (yDirection == 1)
         {

@@ -7,7 +7,7 @@ public class ScoreManager : MonoBehaviour
 {
     [SerializeField]
     int[] playersScore = { 0, 0 };
-
+    public int[] PlayersScore {  get { return playersScore; } }
     [SerializeField]
     TextMeshProUGUI player1ScoreText;
     [SerializeField]

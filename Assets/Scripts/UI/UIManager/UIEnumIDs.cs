@@ -11,7 +11,8 @@ namespace UIControl
         HUDLayout,
         StoryLevelFinishedLayout,
         ChallengeLevelFinishedLayout,
-        NewHighScoreLayout
+        NewHighScoreLayout,
+        StoryModeFinishedLayout
     }
 
     public enum UIPanelsIDs
@@ -23,7 +24,8 @@ namespace UIControl
         ChallengeLevelFinishedPanel,
         NewHighScorePanel,
         StartCountDownPanel,
-        EnemyNamePanel
+        EnemyNamePanel,
+        StoryModeFinishedPanel
 
     }
 }

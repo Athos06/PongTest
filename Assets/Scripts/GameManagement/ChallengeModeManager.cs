@@ -30,6 +30,8 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     private CharacterController player1;
 
+    private bool subcribedToEvents = false;
+
     public void Initialize(GameManager gameManager)
     {
         this.gameManager = gameManager;
@@ -38,10 +40,14 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     public void StartGameMode()
     {
+        if(!subcribedToEvents)
+        {
+            subcribedToEvents = true;
+            gameManager.OnScoredGoalEvent += OnScoredGoal;
+            gameManager.OnGameStarted += OnGameStarted;
+        }
 
-        gameManager.OnScoredGoalEvent += OnScoredGoal;
-        gameManager.OnGameStarted += OnGameStarted;
-
+        timerText.text = "0:00";
         wall.SetActive(true);
         challengeModeScoreboard.SetActive(true);
         storyModeScoreboard.SetActive(false);
@@ -88,6 +94,16 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
             player1 = null;
         }
 
+        if (subcribedToEvents)
+        {
+            subcribedToEvents = false;
+            gameManager.OnScoredGoalEvent -= OnScoredGoal;
+            gameManager.OnGameStarted -= OnGameStarted;
+        }
+
+        wall.SetActive(false);
+        challengeModeScoreboard.SetActive(false);
+        storyModeScoreboard.SetActive(true);
 
         ReferencesHolder.Instance.ScreenFader.StartFadeIn
             (() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });

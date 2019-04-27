@@ -213,9 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a309fc7a5f1e64fa3303f3acad7366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 6
+  moveSpeed: 1
   movementRange: 6.5
-  isIdle: 1
+  skillController: {fileID: 0}
   debugAI: 1
 --- !u!1 &1127045719732360569
 GameObject:

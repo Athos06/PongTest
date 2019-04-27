@@ -54,14 +54,9 @@ public class ReferencesHolder : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         uiStateManager.Initialize();
         LeadersBoardManager.Initialize();
         gameManager.Initialize();
     }
-
 }

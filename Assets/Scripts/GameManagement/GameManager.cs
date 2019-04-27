@@ -7,7 +7,6 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-
     public enum GameModes
     {
         Story,
@@ -17,6 +16,7 @@ public class GameManager : MonoBehaviour
     public Action<int> OnScoredGoalEvent;
     public Action OnCountdownFinishedEvent;
     public Action OnGameStarted;
+    public Action OnGameOver;
 
     [SerializeField]
     private Ball ballPrefab;
@@ -44,29 +44,27 @@ public class GameManager : MonoBehaviour
 
     private IGameMode gameModeActive;
 
+    private float countdown = 3.0f;
+
     [SerializeField]
     private int RoundTime = 10;
     [SerializeField]
     private Vector3 ballStartPosition;
 
+    private SavingManager savingManager;
+    public SavingManager SavingManager { get { return savingManager; } }
+
     private Ball ball;
-    private CharacterController player1;
-    private CharacterController player2;
 
     public Ball GetActiveBall()
     {
         return ball;
     }
 
-    public void SetPlayers(CharacterController player1, CharacterController player2)
-    {
-        this.player1 = player1;
-        this.player2 = player2;
-    }
-
     public void Initialize()
     {
-
+        savingManager = new SavingManager();
+        savingManager.Initialize();
         storyModeManager.Initialize(this);
         challengeModeManager.Initialize(this);
 
@@ -80,19 +78,28 @@ public class GameManager : MonoBehaviour
         //StartGame();
     }
 
-    //public void StartStoryMode()
-    //{
-    //    storyModeManager.StartNextLevel();
-    //}
-
-    //public void StartChallengeMode()
-    //{
-    //    challengeModeManager.StartChallenge();
-    //}
-
     public int GetChallengeScore()
     {
         return challengeModeManager.TimeScore;
+    }
+
+    public int[] GetScore()
+    {
+        return scoreManager.PlayersScore;
+    }
+
+    public int GetWinnerPlayer()
+    {
+        if(scoreManager.PlayersScore[0] > scoreManager.PlayersScore[1])
+        {
+            return 0;
+        }
+        if (scoreManager.PlayersScore[0] < scoreManager.PlayersScore[1])
+        {
+            return 1;
+        }
+        //draw
+        return -1;
     }
 
     public void StartTimer(TextMeshProUGUI timerText, bool IsCountDown)
@@ -119,11 +126,9 @@ public class GameManager : MonoBehaviour
         {
             case GameModes.Story:
                 gameModeActive = storyModeManager;
-                //ReferencesHolder.Instance.ScreenFader.StartFadeOut(storyModeManager.StartNextLevel);
                 break;
             case GameModes.Challenge:
                 gameModeActive = challengeModeManager;
-                //ReferencesHolder.Instance.ScreenFader.StartFadeOut(challengeModeManager.StartChallenge);
                 break;
         }
 
@@ -141,7 +146,6 @@ public class GameManager : MonoBehaviour
         //skillHudController.Initialize(HumanPlayer);
     }
 
-    private float countdown = 3.0f;
     private IEnumerator StartingGame()
     {
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.StartCountDownPanel);
@@ -169,6 +173,9 @@ public class GameManager : MonoBehaviour
     {
         ball.DisableBall();
         timerCountdown.StopTimer();
+
+        if (OnGameOver != null)
+            OnGameOver.Invoke();
 
     }
 
@@ -210,7 +217,7 @@ public class GameManager : MonoBehaviour
     {
         if (OnCountdownFinishedEvent != null)
             OnCountdownFinishedEvent.Invoke();
-
-        //GameOver();
     }
+
+
 }

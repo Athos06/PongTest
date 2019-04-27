@@ -10,7 +10,7 @@ public static class LeaderboardSystem
 
     public static void SaveHighscore(List<HighScoreData> leaderBoard)
     {
-        string path = Application.persistentDataPath + "leadersBoard.lb";
+        string path = Application.persistentDataPath + "/leadersBoard.lb";
         StreamWriter streamWritter = new StreamWriter(path);
 
         foreach (var highScore in leaderBoard)
@@ -29,7 +29,7 @@ public static class LeaderboardSystem
     {
         List<HighScoreData> leadersBoard = new List<HighScoreData>();
 
-        string path = Application.persistentDataPath + "leadersBoard.lb";
+        string path = Application.persistentDataPath + "/leadersBoard.lb";
         StreamReader streamReader = new StreamReader(path);
 
         while (!streamReader.EndOfStream)

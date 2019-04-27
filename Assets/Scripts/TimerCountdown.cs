@@ -44,10 +44,7 @@ public class TimerCountdown : MonoBehaviour
     public void StopTimer()
     {
         if (timerCoroutine != null)
-        {
-            Debug.Log("TRYING TO STOP TIMER");
             StopCoroutine(timerCoroutine);
-        }
     }
 
     private IEnumerator CountdownCoroutine()

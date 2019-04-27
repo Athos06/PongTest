@@ -26,11 +26,11 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     private CharacterController player1;
     private CharacterController player2;
 
+    private bool subcribedToEvents = false;
 
-    public int level = 0;
     public int GetLevel()
     {
-        return level;
+        return ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel;
     }
 
     public void Initialize(GameManager gameManager)
@@ -41,9 +41,15 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     public void StartLevel(int level)
     {
         ReferencesHolder.Instance.CamerasController.SetEnemyIntroCamera();
-        gameManager.OnCountdownFinishedEvent += OnCountdownFinishedEvent;
-        gameManager.OnGameStarted += OnGameStarted;
-       
+
+
+        if (!subcribedToEvents)
+        {
+            subcribedToEvents = true;
+            gameManager.OnCountdownFinishedEvent += OnCountdownFinishedEvent;
+            gameManager.OnGameStarted += OnGameStarted;
+        }
+
         switch (level)
         {
             case 0:
@@ -83,7 +89,14 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void StartGameMode()
     {
-        StartLevel(GetLevel());
+        int nextLevel = GetLevel();
+        if (nextLevel == -1)
+        {
+            nextLevel = 0;
+            ReferencesHolder.Instance.GameManager.SavingManager.RestartStoryMode();
+        }
+
+        StartLevel(nextLevel);
     }
 
     public void GameModeOver()
@@ -104,6 +117,13 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         {
             Destroy(player2.gameObject);
             player2 = null;
+        }
+
+        if (subcribedToEvents)
+        {
+            subcribedToEvents = false;
+            gameManager.OnCountdownFinishedEvent -= OnCountdownFinishedEvent;
+            gameManager.OnGameStarted -= OnGameStarted;
         }
 
         ReferencesHolder.Instance.ScreenFader.StartFadeIn

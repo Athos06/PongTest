@@ -9,10 +9,10 @@ namespace UIControl {
 	public class UIStateManager : MonoBehaviour {
 		// events //
 		public delegate void OpenLayoutAction (UILayoutsIDs id);
-		public static event OpenLayoutAction OnLayoutOpen;
+		public event OpenLayoutAction OnLayoutOpen;
 
 		public delegate void OpenPanelAction (UIPanelsIDs id);
-		public static event OpenPanelAction OnPanelOpen;
+		public event OpenPanelAction OnPanelOpen;
 
 		[Header ("LAYOUTS")]
 		[Tooltip ("Drag and drop all the used UILayouts here to add them and be able to use them")]
@@ -201,7 +201,6 @@ namespace UIControl {
 			newState.Open ();
 			_UIStatesStack.Push (newState);
 			if (OnLayoutOpen != null) {
-				Debug.Log ("even declared" + layoutID);
 				OnLayoutOpen (layoutID);
 			}
 

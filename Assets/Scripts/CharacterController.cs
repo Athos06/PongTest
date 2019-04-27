@@ -9,52 +9,41 @@ public class CharacterController : MonoBehaviour
     private float moveSpeed = 5.0f;
     [SerializeField]
     private float movementRange = 6.5f;
-
-    [Header("Player State flags")]
-    /// <summary>
-    /// When the character is not moving isIdle is true
-    /// </summary>
-    public bool isIdle = true;
-
-    public bool debugAI = false;
-
-    private Vector3 movementVector;
-   
-    private ICharacterInput playerInput;
-    //public PlayerAnimatorController playerAnimator;
-
     [SerializeField]
     CharacterSkillController skillController;
 
-    private void Awake()
-    {
 
+    [Header("Player State flags")]
 
-    }
+    public bool debugAI = false;
+    private Vector3 movementVector;
+    private ICharacterInput playerInput;
+
+    
+    private bool inputEnabled = false;
+    private bool subcscribedToEvents = false;
 
     private void Start()
     {
+        inputEnabled = false;
+
         if (debugAI)
             playerInput = new AIInput(transform);
         else
             playerInput = new PlayerInput();
+
+        if (!subcscribedToEvents)
+        {
+            subcscribedToEvents = true;
+            ReferencesHolder.Instance.GameManager.OnGameStarted += OnGameStarted;
+            ReferencesHolder.Instance.GameManager.OnGameOver += OnGameOver;
+        }
+        
     }
 
     private void Update()
     {
-        //if (!Manager.Instance.CanPlay()) return;
-        //if (isDead)
-        //{
-        //    UpdateAnimator();
-        //    return;
-        //}
 
-        //if (isIdle)
-        //{
-        //    UpdateMovement();
-        //}
-
-        //UpdateAnimator();
     }
 
     private void LateUpdate()
@@ -66,21 +55,16 @@ public class CharacterController : MonoBehaviour
     {
         this.movementVector = movementVector;
     }
-
-
-    /// <summary>
-    /// Calls the PlayerAnimatorController to play the proper animation
-    /// </summary>
-    //void UpdateAnimator()
-    //{
-    //    playerAnimator.UpdateAnimator();
-    //}
-
-    /// <summary>
-    /// Called everyframe to get the input from the player
-    /// </summary>
-    void UpdateMovement()
+    public void EnableInput(bool enabled)
     {
+        inputEnabled = enabled;
+    }
+
+    private void UpdateMovement()
+    {
+        if (!inputEnabled)
+            return;
+
         //We get the player input for this frame
         foreach (Command inputCommand in playerInput.GetInput())
         {
@@ -88,20 +72,17 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-
     public void SetMove()
     {
         ApplyingMovementVector(movementVector);
     }
-
 
     public void UseSkill()
     {
         skillController.UseSkill();
     }
 
-
-    void ApplyingMovementVector(Vector3 movementVec)
+    private void ApplyingMovementVector(Vector3 movementVec)
     {
         Vector3 previousPosition = transform.position;
         transform.Translate(movementVec*moveSpeed*Time.deltaTime, Space.World);
@@ -110,6 +91,19 @@ public class CharacterController : MonoBehaviour
             transform.position = previousPosition;
         }
     }
-    
-    
+
+    private void OnDestroy()
+    {
+        
+    }
+
+    private void OnGameStarted()
+    {
+        inputEnabled = true;
+    }
+
+    private void OnGameOver()
+    {
+        inputEnabled = false;
+    }
 }

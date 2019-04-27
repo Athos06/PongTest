@@ -18,23 +18,46 @@ public class MainMenuPanelController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ReferencesHolder.Instance.GameManager.SavingManager.OnStoryModeStarted += OnStoryModeStarted;
         startStoryModeButton.onClick.RemoveAllListeners();
         startStoryModeButton.onClick.AddListener(OnStartStoryModeClicked);
         startChallengeModeButton.onClick.RemoveAllListeners();
         startChallengeModeButton.onClick.AddListener(OnStartChallengeModeClicked);
+        continueStoryModeButton.onClick.RemoveAllListeners();
+        continueStoryModeButton.onClick.AddListener(OnContinueStoryModeClicked);
+        if (ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel == -1)
+        {
+            continueStoryModeButton.interactable = false;
+        }
     }
-    
+
     private void OnStartStoryModeClicked()
+    {
+        ReferencesHolder.Instance.GameManager.SavingManager.RestartStoryMode();
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
+        ReferencesHolder.Instance.UIStateManager.CloseAll();
+        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+    }
+
+    private void OnContinueStoryModeClicked()
     {
         ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
     }
+
     private void OnStartChallengeModeClicked()
     {
         ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Challenge);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+    }
 
+
+
+
+    private void OnStoryModeStarted()
+    {
+        continueStoryModeButton.interactable = true;
     }
 }
