@@ -1,23 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UIControl;
 
 public class GameManager : MonoBehaviour
 {
-    //debug
-    private static GameManager instance;
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-                instance = FindObjectOfType<GameManager>();
-
-            return instance;
-        }
-        set { instance = value; }
-    }
-
     [SerializeField]
     private Ball ballPrefab;
     [SerializeField]
@@ -35,6 +22,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject AIPlayerPrefab;
 
+    [SerializeField]
+    private StoryModeManager storyModeManager;
 
     [SerializeField]
     private Vector3 ballStartPosition;
@@ -51,29 +40,24 @@ public class GameManager : MonoBehaviour
         }
         return ball;
     }
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
-
-    private void Start()
-    {
-        Initialize();
-    }
 
     public void Initialize()
     {
-  
 
+        storyModeManager.Initialize(this);
         goalPlayer1.OnScoredGoal += OnScoreGoal;
         goalPlayer2.OnScoredGoal += OnScoreGoal;
         scoreManager.Initialize();
         timerCountdown.OnCountdownFinished += OnCountdownFinished;
-        
-        StartGame();
+
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
+
+        //StartGame();
+    }
+
+    public void StartStoryMode()
+    {
+        storyModeManager.StartNextLevel();
     }
 
     public void StartGame()
@@ -87,8 +71,16 @@ public class GameManager : MonoBehaviour
 
         timerCountdown.StartCountdown(20);
         GameObject HumanPlayer = Instantiate(HumanPlayerPrefab);
-        Instantiate(AIPlayerPrefab);
+        //Instantiate(AIPlayerPrefab);
         skillHudController.Initialize(HumanPlayer);
+    }
+
+    public void GameOver()
+    {
+        ball.DisableBall();
+        ReferencesHolder.Instance.UIStateManager.CloseAll();
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.LevelFinishedLayout);
+
     }
 
     private void OnScoreGoal(int player)
@@ -101,6 +93,7 @@ public class GameManager : MonoBehaviour
 
     private void OnCountdownFinished()
     {
-        ball.DisableBall();
+
+        GameOver();
     }
 }
