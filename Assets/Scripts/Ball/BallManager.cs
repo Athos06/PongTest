@@ -78,8 +78,10 @@ public class BallManager : MonoBehaviour
         }
         if (ActiveBall != null)
         {
+            ActiveBall.gameObject.SetActive(false);
             Destroy(ActiveBall.gameObject);
             ActiveBall = null;
+            ballInPlay = false;
         }
     }
 

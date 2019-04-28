@@ -214,10 +214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a309fc7a5f1e64fa3303f3acad7366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 5.5
   movementRange: 6.5
   skillController: {fileID: 3967716021699194762}
-  debugAI: 1
+  AIPlayer: 0
 --- !u!114 &3967716021699194762
 MonoBehaviour:
   m_ObjectHideFlags: 0

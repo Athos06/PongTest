@@ -821,17 +821,19 @@ MonoBehaviour:
     type: 3}
   HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
     type: 3}
-  introLength: 3
-  ballStartPosition: {x: 0, y: 1.5, z: 3}
+  storyModeScoreBoard: {fileID: 258600516}
+  timerCountdown: {fileID: 1782632534}
+  startGameCountdown: {fileID: 516309838}
+  goalsManager: {fileID: 1196182976}
+  ballManager: {fileID: 1655038407}
   levelsDescription:
   - 'STAGE 1: blue brick minion'
   - 'STAGE 2: ripped blue brick'
   - 'STAGE 3: bluish king brick'
-  storyModeScoreBoard: {fileID: 258600516}
-  timerCountdown: {fileID: 1782632534}
-  startGameCountdown: {fileID: 516309838}
-  RoundTime: 20
+  ballStartPosition: {x: 0, y: 1.5, z: 3}
+  RoundTime: 60
   countdown: 3
+  introLength: 3
 --- !u!1 &90680377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2846,15 +2848,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leaderBoardList:
   - playerName: ChokyPah
-    scoreInSeconds: 22
+    scoreInSeconds: 25
   - playerName: Jordi
-    scoreInSeconds: 15
-  - playerName: player1
+    scoreInSeconds: 18
+  - playerName: Mooncake
     scoreInSeconds: 10
-  - playerName: player2
-    scoreInSeconds: 2
-  - playerName: player3
-    scoreInSeconds: 0
+  - playerName: JohnSmith
+    scoreInSeconds: 5
+  - playerName: NoOne
+    scoreInSeconds: 1
 --- !u!1 &297977541
 GameObject:
   m_ObjectHideFlags: 0
@@ -4903,13 +4905,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450953347}
-  m_LocalRotation: {x: 0.17777175, y: 0, z: 0, w: 0.9840718}
-  m_LocalPosition: {x: 0, y: 7.18, z: -13}
+  m_LocalRotation: {x: 0.17515813, y: 0.16813473, z: -0.030373385, w: 0.96960187}
+  m_LocalPosition: {x: -6.01, y: 7.18, z: -10.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 20.48, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.480001, y: 19.675001, z: 0}
 --- !u!1 &455976311
 GameObject:
   m_ObjectHideFlags: 0
@@ -8356,7 +8358,7 @@ GameObject:
   - component: {fileID: 811510361}
   - component: {fileID: 811510362}
   m_Layer: 0
-  m_Name: ChallengeModeManager (1)
+  m_Name: ChallengeModeManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8393,15 +8395,17 @@ MonoBehaviour:
   storyModeScoreboard: {fileID: 258600512}
   HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
     type: 3}
-  introLength: 3
+  introLength: 2
   ballStartPosition: {x: 0, y: 1.5, z: 4}
-  difficultyIncrease: 0.15
+  difficultyIncrease: 0.05
   countdown: 3
   levelDescription: 'CHALLENGE: Face the randomizer wall!'
   scoreBoard: {fileID: 406310557}
   difficultyController: {fileID: 227518080}
   timerCountdown: {fileID: 1782632534}
   startGameCountdown: {fileID: 516309838}
+  goalsManager: {fileID: 1196182976}
+  ballManager: {fileID: 1655038407}
 --- !u!1 &814385515
 GameObject:
   m_ObjectHideFlags: 0
@@ -10565,7 +10569,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -47, y: 28}
+  m_AnchoredPosition: {x: -47.00049, y: 28}
   m_SizeDelta: {x: -1203.6, y: -316.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &968775374
@@ -11301,8 +11305,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 55
+  m_fontSizeBase: 55
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13993,7 +13997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1265182622
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15162,8 +15166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc4335e5b757c343954a943f08e69d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballManager: {fileID: 1655038407}
-  goalsManager: {fileID: 1196182976}
   skillHudController: {fileID: 1865505209}
   storyModeManager: {fileID: 76162254}
   challengeModeManager: {fileID: 811510362}
@@ -17774,9 +17776,9 @@ MonoBehaviour:
   ballPrefab: {fileID: 2050793608858119839, guid: db419b4d530d33f49ba0ee2d48d5b814,
     type: 3}
   prepareToLaunchTime: 1.5
-  ballDefaultSpeed: 8
-  kickOffSpeed: 3
-  chargedSpeedModifier: 0.5
+  ballDefaultSpeed: 11
+  kickOffSpeed: 4
+  chargedSpeedModifier: 0.6
 --- !u!1 &1656862229
 GameObject:
   m_ObjectHideFlags: 0
@@ -20422,7 +20424,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start story
+  m_Text: Start story mode
 --- !u!222 &1923569321
 CanvasRenderer:
   m_ObjectHideFlags: 0

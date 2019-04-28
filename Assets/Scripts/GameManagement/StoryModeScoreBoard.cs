@@ -32,4 +32,10 @@ public class StoryModeScoreBoard : MonoBehaviour
     {
         timerText.text = time;
     }
+
+    public void Reset()
+    {
+        SetTimerDisplay(TimeFormatHelper.GetTimeInFormat(0));
+        SetScoreDisplay("00", "00");
+    }
 }

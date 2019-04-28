@@ -30,7 +30,6 @@ public class PauseMenuPanelController : MonoBehaviour
 
     private void OnQuitClick()
     {
-        ReferencesHolder.Instance.GameManager.UnPauseGame();
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.GameManager.QuitGame();
     }

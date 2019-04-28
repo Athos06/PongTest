@@ -12,26 +12,20 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private CharacterSkillController skillController;
     public CharacterSkillController SkillController {  get { return skillController; } }
-
-    [Header("Player State flags")]
-
-    public bool debugAI = false;
+    [Space]
+    [SerializeField]
+    private bool AIPlayer = false;
+    public bool IsAIPlayer { get { return AIPlayer; } }
     private Vector3 movementVector;
     public Vector3 MovementVector {  get { return movementVector; } }
-    private ICharacterInput playerInput;
 
-    
+    private ICharacterInput playerInput;
     private bool inputEnabled = false;
     private bool subcscribedToEvents = false;
 
-    private void Start()
+    public void Intialize()
     {
         inputEnabled = false;
-
-        if (debugAI)
-            playerInput = new AIInput(transform);
-        else
-            playerInput = new PlayerInput();
 
         if (!subcscribedToEvents)
         {
@@ -40,8 +34,13 @@ public class CharacterController : MonoBehaviour
             ReferencesHolder.Instance.GameManager.OnGameOver += OnGameOver;
             ReferencesHolder.Instance.GameManager.OnGamePause += OnGamePause;
         }
-        
     }
+
+    public void SetInput (ICharacterInput inputSystem)
+    {
+        playerInput = inputSystem;
+    }
+
 
     private void LateUpdate()
     {
@@ -62,10 +61,13 @@ public class CharacterController : MonoBehaviour
         if (!inputEnabled)
             return;
 
-        //We get the player input for this frame
-        foreach (Command inputCommand in playerInput.GetInput())
+        if (playerInput != null)
         {
-            inputCommand.Execute(this);
+            //We get the player input for this frame
+            foreach (Command inputCommand in playerInput.GetInput())
+            {
+                inputCommand.Execute(this);
+            }
         }
     }
 
@@ -87,11 +89,6 @@ public class CharacterController : MonoBehaviour
         {
             transform.position = previousPosition;
         }
-    }
-
-    private void OnDestroy()
-    {
-        
     }
 
     private void OnGameStarted()

@@ -17,10 +17,6 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     [Header("References")]
     [SerializeField]
-    private Vector3 ballStartPosition;
-    [TextArea, SerializeField]
-    private string[] levelsDescription;
-    [SerializeField]
     private StoryModeScoreBoard storyModeScoreBoard;
     [SerializeField]
     private TimerCountdown timerCountdown;
@@ -29,7 +25,15 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     private StartGameCountdownController startGameCountdown;
     [SerializeField]
     private GoalsManager goalsManager;
+    [SerializeField]
+    private BallManager ballManager;
+    public BallManager BallManager { get { return ballManager; } }
+    [Space]
+    [TextArea, SerializeField]
+    private string[] levelsDescription;
     [Header("game values")]
+    [SerializeField]
+    private Vector3 ballStartPosition;
     [SerializeField]
     private int RoundTime = 60;
     [SerializeField]
@@ -62,6 +66,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void StartLevel(int level)
     {
+        ballManager.Initialize();
         ReferencesHolder.Instance.CamerasController.SetEnemyIntroCamera();
 
 
@@ -77,18 +82,25 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         {
             case 0:
                 player2 = Instantiate(enemy1Prefab);
+                player2.SetInput(new NoobAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
             case 1:
                 player2 = Instantiate(enemy2Prefab);
+                player2.SetInput(new IntermediateAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
             case 2:
                 player2 = Instantiate(enemy3Prefab);
+                player2.SetInput(new AdvancedAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
         }
 
+        player2.Intialize();
+        
         player1 = Instantiate(HumanPlayerPrefab);
-        gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
+        player1.Intialize();
+        player1.SetInput(new PlayerInput());
 
+        gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
         ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartEnemyIntro);
     }
 
@@ -108,9 +120,9 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void GameModeOver()
     {
+        ballManager.DisableBall();
         timerCountdown.StopTimer();
-        Debug.Log("reset the score");
-        gameManager.BallManager.DisableBall();
+        ballManager.DisableBall();
         gameManager.GameOver();
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.StoryLevelFinishedLayout);
@@ -137,10 +149,12 @@ public class StoryModeManager : MonoBehaviour, IGameMode
             goalsManager.OnScoredGoal -= OnScoredGoal;
         }
 
+        ballManager.DestroyBall();
+        timerCountdown.StopTimer();
         scoreManager.ResetScore();
-
-        ReferencesHolder.Instance.ScreenFader.StartFadeIn
-            (() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });
+        storyModeScoreBoard.Reset();
+        ReferencesHolder.Instance.CamerasController.SetMainMenuCamera();
+        ReferencesHolder.Instance.ScreenFader.StartFadeIn(() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });
 
     }
 
@@ -157,6 +171,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
             player2 = null;
         }
 
+        ballManager.DestroyBall();
         scoreManager.ResetScore();
         gameManager.StartGameMode(GameModeEnums.GameModes.Story);
     }
@@ -171,7 +186,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.EnemyNamePanel);
         yield return new WaitForSeconds(introLength);
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.EnemyNamePanel);
-        gameManager.BallManager.SpawnBall(ballStartPosition);
+        ballManager.SpawnBall(ballStartPosition);
 
         ReferencesHolder.Instance.CamerasController.SetGameCameraCamera();
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.StartCountDownPanel);
@@ -219,25 +234,19 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     public void StartTimer()
     {
         timerCountdown.StartCountdown(storyModeScoreBoard.SetTimerDisplay, RoundTime);
-
-
-        //else
-        //{
-        //    timerCountdown.StartTimer(timerText);
-        //}
     }
 
     private void OnGameStarted()
     {
         StartTimer();
-        gameManager.BallManager.LaunchBall();
+        ballManager.LaunchBall();
     }
 
     private void OnScoredGoal(int player)
     {
         scoreManager.UpdateScoreGoal(player, 1);
-        gameManager.BallManager.GoalScored();
-        gameManager.BallManager.KickOff(ballStartPosition, player);
+        ballManager.GoalScored();
+        ballManager.KickOff(ballStartPosition, player);
     }
 
 }

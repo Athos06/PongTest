@@ -39,7 +39,7 @@ public class ScreenFader : MonoBehaviour
         {
             // ... move the alpha towards it's target alpha.
             faderCanvasGroup.alpha = Mathf.MoveTowards(faderCanvasGroup.alpha, finalAlpha,
-                fadeSpeed * Time.deltaTime);
+                fadeSpeed * Time.unscaledDeltaTime);
 
             // Wait for a frame then continue.
             yield return null;

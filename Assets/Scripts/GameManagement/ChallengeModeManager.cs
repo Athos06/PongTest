@@ -41,6 +41,9 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     private StartGameCountdownController startGameCountdown;
     [SerializeField]
     private GoalsManager goalsManager;
+    [SerializeField]
+    private BallManager ballManager;
+    public BallManager BallManager { get { return ballManager; } }
 
     private GameManager gameManager;
     private CharacterController player1;
@@ -68,10 +71,11 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         wall.SetActive(true);
         challengeModeScoreboard.SetActive(true);
         storyModeScoreboard.SetActive(false);
-
         player1 = Instantiate(HumanPlayerPrefab);
+        player1.Intialize();
+        player1.SetInput(new PlayerInput());
         gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
-
+        ballManager.Initialize();
         ReferencesHolder.Instance.CamerasController.SetEnemyIntroCamera();
         ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartPlay);
 
@@ -87,7 +91,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.EnemyNamePanel);
         yield return new WaitForSeconds(introLength);
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.EnemyNamePanel);
-        gameManager.BallManager.SpawnBall(ballStartPosition);
+        ballManager.SpawnBall(ballStartPosition);
 
         //start countdown
         ReferencesHolder.Instance.CamerasController.SetGameCameraCamera();
@@ -117,6 +121,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     public void GameModeOver()
     {
+        ballManager.DisableBall();
         timerCountdown.StopTimer();
         difficultyController.Stop();
         int score = timerCountdown.TimerCurrentTime;
@@ -149,7 +154,9 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         wall.SetActive(false);
         challengeModeScoreboard.SetActive(false);
         storyModeScoreboard.SetActive(true);
-
+        ballManager.DestroyBall();
+        timerCountdown.StopTimer();
+        ReferencesHolder.Instance.CamerasController.SetMainMenuCamera();
         ReferencesHolder.Instance.ScreenFader.StartFadeIn
             (() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });
     }
@@ -162,6 +169,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
             player1 = null;
         }
 
+        ballManager.DestroyBall();
         gameManager.StartGameMode(GameModeEnums.GameModes.Challenge);
     }
 
@@ -173,7 +181,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     public void IncreaseDifficulty()
     {
-        gameManager.BallManager.ModifyBallSpeed(difficultyIncrease);
+        ballManager.ModifyBallSpeed(difficultyIncrease);
     }
 
     public void StartTimer()
@@ -183,14 +191,14 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     private void OnScoredGoal(int player)
     {
-        gameManager.BallManager.GoalScored();
+        ballManager.GoalScored();
         GameModeOver();
     }
 
     private void OnGameStarted()
     {
         StartTimer();
-        gameManager.BallManager.LaunchBall(1);
+        ballManager.LaunchBall(1);
     }
   
 }

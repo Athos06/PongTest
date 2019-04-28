@@ -17,14 +17,12 @@ public class ScoreManager
 
     public void ResetScore()
     {
-        Debug.Log("ok i reset score");
         for (int i = 0; i < playersScore.Length; i++) playersScore[i] = 0;
         DisplayScore();
     }
 
     public void UpdateScoreGoal(int player, int score)
     {
-        Debug.Log("Update score goal");
         playersScore[player] += score;
         DisplayScore();
     }

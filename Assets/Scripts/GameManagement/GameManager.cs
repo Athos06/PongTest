@@ -9,15 +9,9 @@ public class GameManager : MonoBehaviour
     public Action OnGameOver;
     public Action<bool> OnGamePause;
     #endregion
-
     public bool IsGamePaused { get; private set; }
     public bool IsGamePlaying { get; private set; }
     
-    [SerializeField]
-    private BallManager ballManager;
-    public BallManager BallManager {  get { return ballManager; } }
-    
-
     [SerializeField]
     private SkillHudController skillHudController;
     public SkillHudController SKillHudController { get { return skillHudController; } }
@@ -31,12 +25,8 @@ public class GameManager : MonoBehaviour
 
     private IGameMode gameMode;
     public IGameMode GameMode { get { return gameMode; } }
-
-
-
     private SavingManager savingManager;
     public SavingManager SavingManager { get { return savingManager; } }
-
     private Coroutine StartingGameCoroutine;
 
     public void Initialize()
@@ -46,9 +36,7 @@ public class GameManager : MonoBehaviour
         storyModeManager.Initialize(this);
         challengeModeManager.Initialize(this);
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
-
     }
-
 
     public void PauseGame()
     {
@@ -76,25 +64,24 @@ public class GameManager : MonoBehaviour
 
     public void QuitGame()
     {
-        IsGamePlaying = false;
-
         if (StartingGameCoroutine != null)
         {
             StopCoroutine(StartingGameCoroutine);
             StartingGameCoroutine = null;
         }
 
-        GameOver();
-        UnPauseGame();
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
-        ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameMode.FinishGameMode);
-        ballManager.DestroyBall();
+        ReferencesHolder.Instance.ScreenFader.StartFadeOut( () => 
+        {
+            UnPauseGame();
+            IsGamePlaying = false;
+            gameMode.FinishGameMode();
+            GameOver();
+        });
     }
 
     public void StartGameMode(GameModeEnums.GameModes gameMode)
     {
-        ballManager.Initialize();
-
         switch (gameMode)
         {
             case GameModeEnums.GameModes.Story:
@@ -117,23 +104,18 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        ballManager.DisableBall();
         if (OnGameOver != null)
             OnGameOver.Invoke();
-
     }
 
     public void FinishGame()
     {
         IsGamePlaying = false;
-
-        ballManager.DestroyBall();
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameMode.FinishGameMode);
     }
 
     public void RestartGame()
     {
-        ballManager.DestroyBall();
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameMode.RestartGameMode);
     }
 
