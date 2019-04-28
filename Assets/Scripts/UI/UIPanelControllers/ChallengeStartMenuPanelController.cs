@@ -31,7 +31,7 @@ public class ChallengeStartMenuPanelController : MonoBehaviour
 
     private void OnStartChallengeClicked()
     {
-        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Challenge);
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameModeEnums.GameModes.Challenge);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
     }
 

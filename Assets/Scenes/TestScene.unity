@@ -15040,7 +15040,7 @@ MonoBehaviour:
   storyModeManager: {fileID: 1428679444}
   challengeModeManager: {fileID: 1428679445}
   startGameCountdown: {fileID: 516309838}
-  RoundTime: 10
+  RoundTime: 30
 --- !u!114 &1428679444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15088,7 +15088,9 @@ MonoBehaviour:
   ballStartPosition: {x: 0, y: 1.5, z: 4}
   HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
     type: 3}
+  difficultyIncrease: 0.15
   scoreBoard: {fileID: 406310557}
+  difficultyController: {fileID: 227518080}
   levelDescription: 'CHALLENGE: Face the randomizer wall!'
   score: 0
 --- !u!1 &1435860476
@@ -17709,8 +17711,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 2050793608858119839, guid: db419b4d530d33f49ba0ee2d48d5b814,
     type: 3}
-  prepareToLaunchTime: 2
-  ballDefaultSpeed: 5
+  prepareToLaunchTime: 1.5
+  ballDefaultSpeed: 8
+  kickOffSpeed: 3
+  chargedSpeedModifier: 0.5
 --- !u!1 &1656862229
 GameObject:
   m_ObjectHideFlags: 0

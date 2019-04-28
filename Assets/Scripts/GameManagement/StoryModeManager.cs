@@ -116,6 +116,8 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void GameModeOver()
     {
+        Debug.Log("game over, disable ball pls");
+        gameManager.BallManager.DisableBall();
         gameManager.GameOver();
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.StoryLevelFinishedLayout);
@@ -159,18 +161,18 @@ public class StoryModeManager : MonoBehaviour, IGameMode
             player2 = null;
         }
 
-        gameManager.StartGameMode(GameManager.GameModes.Story);
+        gameManager.StartGameMode(GameModeEnums.GameModes.Story);
     }
 
     private void OnGameStarted()
     {
         gameManager.StartTimer(timerText, true);
-        gameManager.BallManager.KickOff(ballStartPosition);
+        gameManager.BallManager.LaunchBall();
     }
 
     private void OnGoalScore(int player)
     {
         gameManager.BallManager.GoalScored();
-        gameManager.BallManager.KickOff(ballStartPosition);
+        gameManager.BallManager.KickOff(ballStartPosition, player);
     }
 }

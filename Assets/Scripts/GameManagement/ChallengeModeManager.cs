@@ -24,6 +24,8 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     private Vector3 ballStartPosition;
     [SerializeField]
     private CharacterController HumanPlayerPrefab;
+    [SerializeField]
+    private float difficultyIncrease = 0.25f;
 
     [SerializeField]
     private ChallengeModeScoreboard scoreBoard;
@@ -53,7 +55,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     public void IncreaseDifficulty()
     {
-        gameManager.BallManager.ModifyBallSpeed(0.5f);
+        gameManager.BallManager.ModifyBallSpeed(difficultyIncrease);
     }
 
 
@@ -145,7 +147,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
             player1 = null;
         }
 
-        gameManager.StartGameMode(GameManager.GameModes.Challenge);
+        gameManager.StartGameMode(GameModeEnums.GameModes.Challenge);
 
     }
 

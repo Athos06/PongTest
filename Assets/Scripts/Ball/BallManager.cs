@@ -9,9 +9,13 @@ public class BallManager : MonoBehaviour
     [SerializeField]
     private Ball ballPrefab;
     [SerializeField]
-    private float prepareToLaunchTime = 2.0f;
+    private float prepareToLaunchTime = 1.5f;
     [SerializeField]
     private float ballDefaultSpeed = 8.0f;
+    [SerializeField]
+    private float kickOffSpeed = 8.0f;
+    [SerializeField]
+    private float chargedSpeedModifier = 0.5f;
 
     private Coroutine prepareLaunchCoroutine;
     private bool ballInPlay = false;
@@ -34,27 +38,35 @@ public class BallManager : MonoBehaviour
 
         Vector3 rigidbodyVelocity = ActiveBall.RigidBody.velocity;
 
-        //if (Mathf.Abs(rigidbodyVelocity.z) < ballCurrentMinSpeed)
-        //{
-        //    Vector3 velocity = rigidbodyVelocity;
-        //    if (rigidbodyVelocity.z < 0)
-        //    {
-        //        velocity.z = -ballCurrentMinSpeed;
-        //    }
-        //    else
-        //    {
-        //        velocity.z = ballCurrentMinSpeed;
-        //    }
+        if (Mathf.Abs(rigidbodyVelocity.z) < ballCurrentMinSpeed)
+        {
+            Vector3 velocity = rigidbodyVelocity;
+            if (rigidbodyVelocity.z < 0)
+            {
+                velocity.z = -ballCurrentMinSpeed;
+            }
+            else
+            {
+                velocity.z = ballCurrentMinSpeed;
+            }
 
-        //    ActiveBall.RigidBody.velocity = velocity;
+            ActiveBall.RigidBody.velocity = velocity;
 
-        //}
+        }
     }
 
 
     public void DisableBall()
     {
         ActiveBall.gameObject.SetActive(false);
+        ActiveBall.RigidBody.velocity = Vector3.zero;
+        ballInPlay = false;
+
+        if (prepareLaunchCoroutine != null)
+        {
+            StopCoroutine(prepareLaunchCoroutine);
+            prepareLaunchCoroutine = null;
+        }
     }
 
     public void DestroyBall()
@@ -64,8 +76,11 @@ public class BallManager : MonoBehaviour
             StopCoroutine(prepareLaunchCoroutine);
             prepareLaunchCoroutine = null;
         }
-        Destroy(ActiveBall.gameObject);
-        ActiveBall = null;
+        if (ActiveBall != null)
+        {
+            Destroy(ActiveBall.gameObject);
+            ActiveBall = null;
+        }
     }
 
     public void SpawnBall(Vector3 startPosition)
@@ -82,15 +97,31 @@ public class BallManager : MonoBehaviour
         prepareLaunchCoroutine = StartCoroutine(PrepareLaunch(player));
     }
 
+    public void SetKickOffSpeed()
+    {
+        SetBallSpeed(kickOffSpeed);
+    }
+
+    public void SetNormalSpeed()
+    {
+        SetBallSpeed(ballDefaultSpeed);
+    }
+
+    public void SetChargedSpeed()
+    {
+        SetBallSpeed(ballCurrentMinSpeed + (ballCurrentMinSpeed*chargedSpeedModifier) );
+    }
+
+
     public void LaunchBall(int player = -1)
     {
+        SetKickOffSpeed();
         ActiveBall.gameObject.SetActive(true);
         int xDirection = Random.Range(0, 2);
         int zDirection = Random.Range(0, 2);
 
         if (player != -1)
         {
-            Debug.Log("player " + player);
             zDirection = (player == 0) ? 0 : 1;
         }
         Vector3 launchDirection = new Vector3();
@@ -100,6 +131,7 @@ public class BallManager : MonoBehaviour
 
         ActiveBall.RigidBody.velocity = launchDirection;
         ActiveBall.RigidBody.velocity *= ballCurrentMinSpeed;
+        ActiveBall.KickOffLaunch = true;
         ballInPlay = true;
     }
 
@@ -107,6 +139,7 @@ public class BallManager : MonoBehaviour
     public void GoalScored()
     {
         ActiveBall.gameObject.SetActive(false);
+        ActiveBall.RigidBody.velocity = Vector3.zero;
         ballInPlay = false;
     }
 
@@ -130,5 +163,11 @@ public class BallManager : MonoBehaviour
         directionVector.x += dirEffect;
         //Debug.Log("SECOND ball direction vector " + directionVector);
         ActiveBall.RigidBody.velocity = directionVector.normalized * ballCurrentMinSpeed;
+    }
+
+    private void SetBallSpeed(float speed)
+    {
+        ActiveBall.RigidBody.velocity = ActiveBall.RigidBody.velocity.normalized * speed;
+        ballCurrentMinSpeed = speed;
     }
 }

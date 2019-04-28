@@ -10,8 +10,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private float movementRange = 6.5f;
     [SerializeField]
-    CharacterSkillController skillController;
-
+    private CharacterSkillController skillController;
+    public CharacterSkillController SkillController {  get { return skillController; } }
 
     [Header("Player State flags")]
 

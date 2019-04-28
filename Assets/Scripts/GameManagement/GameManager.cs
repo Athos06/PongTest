@@ -7,19 +7,15 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public enum GameModes
-    {
-        Story,
-        Challenge
-    }
-
+    #region Events
     public Action<int> OnScoredGoalEvent;
     public Action OnCountdownFinishedEvent;
     public Action OnGameStarted;
     public Action OnGameOver;
     public Action<bool> OnGamePause;
+    #endregion
 
-    public bool IsGamePause { get; private set; }
+    public bool IsGamePaused { get; private set; }
     public bool IsGamePlaying { get; private set; }
 
     
@@ -38,10 +34,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private SkillHudController skillHudController;
     public SkillHudController SKillHudController { get { return skillHudController; } }
-    [SerializeField]
-    private GameObject HumanPlayerPrefab;
-    [SerializeField]
-    private GameObject AIPlayerPrefab;
 
     [SerializeField]
     private StoryModeManager storyModeManager;
@@ -52,10 +44,12 @@ public class GameManager : MonoBehaviour
 
     private IGameMode gameModeActive;
 
+    [Header("game values")]
+    [SerializeField]
+    private int RoundTime = 60;
+    [SerializeField]
     private float countdown = 3.0f;
 
-    [SerializeField]
-    private int RoundTime = 10;
     private SavingManager savingManager;
     public SavingManager SavingManager { get { return savingManager; } }
 
@@ -84,7 +78,7 @@ public class GameManager : MonoBehaviour
         if (IsGamePlaying)
         {
             Time.timeScale = 0;
-            IsGamePause = true;
+            IsGamePaused = true;
             UIStateManager.Instance.OpenLayout(UILayoutsIDs.PauseLayout, true);
             if (OnGamePause != null)
                 OnGamePause.Invoke(true);
@@ -96,7 +90,7 @@ public class GameManager : MonoBehaviour
         if (IsGamePlaying)
         {
             Time.timeScale = 1;
-            IsGamePause = false;
+            IsGamePaused = false;
             UIStateManager.Instance.CloseLastState();
             if (OnGamePause != null)
                 OnGamePause.Invoke(false);
@@ -167,16 +161,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGameMode(GameModes gameMode)
+    public void StartGameMode(GameModeEnums.GameModes gameMode)
     {
         ballManager.Initialize();
 
         switch (gameMode)
         {
-            case GameModes.Story:
+            case GameModeEnums.GameModes.Story:
                 gameModeActive = storyModeManager;
                 break;
-            case GameModes.Challenge:
+            case GameModeEnums.GameModes.Challenge:
                 gameModeActive = challengeModeManager;
                 break;
         }

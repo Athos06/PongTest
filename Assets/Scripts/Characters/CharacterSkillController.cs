@@ -7,11 +7,18 @@ public class CharacterSkillController : MonoBehaviour
     [SerializeField]
     private GameObject skillPaddle;
 
+    public bool IsSkillActive { get; private set; }
+
     private bool isCooldownActive = false;
     private float cooldownTime = 5.0f;
     private float currentcooldownTimeLeft = 0.0f;
     private Coroutine StartCoolDownCoroutine;
     private Coroutine ActivateSkillCoroutine;
+
+    public void Initialize()
+    {
+        IsSkillActive = false;
+    }
 
     public void UseSkill()
     {
@@ -19,6 +26,7 @@ public class CharacterSkillController : MonoBehaviour
 
             ActivateSkillCoroutine = StartCoroutine(ActivateSkill());
             StartCoolDownCoroutine = StartCoroutine(StartCoolDown());
+            IsSkillActive = true;
         }
     }
 
@@ -32,6 +40,7 @@ public class CharacterSkillController : MonoBehaviour
         skillPaddle.SetActive(true);
         yield return new WaitForSeconds(1.0f);
         skillPaddle.SetActive(false);
+        IsSkillActive = false;
         ActivateSkillCoroutine = null;
         yield return null;
 

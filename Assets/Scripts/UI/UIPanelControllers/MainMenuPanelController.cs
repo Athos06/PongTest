@@ -37,13 +37,13 @@ public class MainMenuPanelController : MonoBehaviour
     private void OnStartStoryModeClicked()
     {
         ReferencesHolder.Instance.GameManager.SavingManager.RestartStoryMode();
-        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameModeEnums.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
     }
 
     private void OnContinueStoryModeClicked()
     {
-        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
+        ReferencesHolder.Instance.GameManager.StartGameMode(GameModeEnums.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
     }
 

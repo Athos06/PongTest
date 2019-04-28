@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 1127045718756994143}
   - component: {fileID: 1127045718756994142}
   - component: {fileID: 1127045718756994141}
+  - component: {fileID: 3967716021699194762}
   m_Layer: 0
   m_Name: AIPlayerPlaceHolder
   m_TagString: Player
@@ -213,10 +214,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78a309fc7a5f1e64fa3303f3acad7366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
+  moveSpeed: 5
   movementRange: 6.5
-  skillController: {fileID: 0}
+  skillController: {fileID: 3967716021699194762}
   debugAI: 1
+--- !u!114 &3967716021699194762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127045718756994140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be2b1149fac4e04289d13def28c83fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillPaddle: {fileID: 1127045719844454589}
 --- !u!1 &1127045719732360569
 GameObject:
   m_ObjectHideFlags: 0

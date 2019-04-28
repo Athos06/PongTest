@@ -9,17 +9,6 @@ public class LeadersBoardManager : MonoBehaviour
     private List<HighScoreData> leaderBoardList = new List<HighScoreData>();
     public List<HighScoreData> LeaderBoardList { get { return leaderBoardList; } }
 
-    //// Start is called before the first frame update
-    //void Start()
-    //{
-    //    Initialize();
-    //}
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public int CheckNewHighScore(int score)
     {
@@ -76,8 +65,13 @@ public class LeadersBoardManager : MonoBehaviour
     public void LoadLeadersBoard()
     {
         var list = LeaderboardSystem.LoadHighScore();
-        if (list == null)
+        if (list == null) {
             SaveLeadersBoard();
+        }
+        else
+        {
+            leaderBoardList = list;
+        }
     }
 
 }
