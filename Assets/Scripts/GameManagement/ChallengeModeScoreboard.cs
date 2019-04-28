@@ -7,7 +7,6 @@ public class ChallengeModeScoreboard : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI timerText;
-    public TextMeshProUGUI TimerText { get { return timerText; } }
     [SerializeField]
     private TextMeshProUGUI highScoreText;
 
@@ -18,4 +17,13 @@ public class ChallengeModeScoreboard : MonoBehaviour
         highScoreText.text = "1: " + highscore.playerName + " " + TimeFormatHelper.GetTimeInFormat(highscore.scoreInSeconds);
     }
 
+    public void SetHighscoreDisplay(string highscore)
+    {
+        highScoreText.text = highscore;
+    }
+
+    public void SetTimerDisplay(string time)
+    {
+        timerText.text = time;
+    }
 }

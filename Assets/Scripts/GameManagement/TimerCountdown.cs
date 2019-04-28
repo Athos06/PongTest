@@ -8,8 +8,6 @@ public class TimerCountdown : MonoBehaviour
 {
     public Action OnCountdownFinished;
 
-    private TextMeshProUGUI timerText;
-
     private int countdownTime;
     private int timerCurrentTime;
     public int TimerCurrentTime {  get { return timerCurrentTime; } }
@@ -17,21 +15,17 @@ public class TimerCountdown : MonoBehaviour
     private Coroutine timerCoroutine;
 
 
-    public void StartCountdown(TextMeshProUGUI timerText, int timeSeconds)
+    public void StartCountdown(Action<string> displayTimer, int timeSeconds)
     {
-        this.timerText = timerText;
         countdownTime = timeSeconds;
         timerCurrentTime = countdownTime;
-        timerCoroutine = StartCoroutine(CountdownCoroutine());
+        timerCoroutine = StartCoroutine(CountdownCoroutine(displayTimer));
     }
 
 
-    public void StartTimer(TextMeshProUGUI timerText)
+    public void StartTimer(Action<string> displayTimer)
     {
-        //countdownTime = timeSeconds;
-        //countdownCurrentTime = countdownTime;
-        this.timerText = timerText;
-        timerCoroutine = StartCoroutine(TimerCoroutine());
+        timerCoroutine = StartCoroutine(TimerCoroutine(displayTimer));
     }
 
     public void StopTimer()
@@ -40,14 +34,14 @@ public class TimerCountdown : MonoBehaviour
             StopCoroutine(timerCoroutine);
     }
 
-    private IEnumerator CountdownCoroutine()
+    private IEnumerator CountdownCoroutine(Action<string> displayTimer)
     {
         float countdown = countdownTime;
         while(countdown >= 0)
         {
             countdown -= Time.deltaTime;
             timerCurrentTime = (int)countdown;
-            timerText.text = TimeFormatHelper.GetTimeInFormat(timerCurrentTime);
+            displayTimer(TimeFormatHelper.GetTimeInFormat(timerCurrentTime));
             yield return null;
         }
 
@@ -58,14 +52,14 @@ public class TimerCountdown : MonoBehaviour
     }
 
 
-    private IEnumerator TimerCoroutine()
+    private IEnumerator TimerCoroutine(Action<string> displayTimer)
     {
         float countdown = 0;
         while (countdown >= 0)
         {
             countdown += Time.deltaTime;
             timerCurrentTime = (int)countdown;
-            timerText.text = TimeFormatHelper.GetTimeInFormat(timerCurrentTime);
+            displayTimer(TimeFormatHelper.GetTimeInFormat(timerCurrentTime));
             yield return null;
         }
 

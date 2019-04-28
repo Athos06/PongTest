@@ -43,7 +43,8 @@ public class ChallengeLevelFinishedPanelController : MonoBehaviour
 
     private void Populate()
     {
-        scoreText.text = TimeFormatHelper.GetTimeInFormat(ReferencesHolder.Instance.GameManager.GetChallengeScore());
+        scoreText.text = TimeFormatHelper.GetTimeInFormat
+            ( ((ChallengeModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetChallengeScore());
     }
 
     private void OnLayoutOpen(UILayoutsIDs id)

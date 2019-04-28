@@ -4,19 +4,22 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(Collider))]
-public class GoalsController : MonoBehaviour
+public class GoalController : MonoBehaviour
 {
-    public Action<int> OnScoredGoal;
-
-    [SerializeField]
-    private Collider GoalTriggerCollider;
-
     [SerializeField]
     private int playerNumber;
-    // Start is called before the first frame update
-    void Start()
+
+    private Collider GoalTriggerCollider;
+    private GoalsManager goalsManager;
+
+    private void Awake()
     {
-        
+        GoalTriggerCollider = GetComponent<Collider>();
+    }
+
+    public void Initialize(GoalsManager goalsManager)
+    {
+        this.goalsManager = goalsManager;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,10 +28,7 @@ public class GoalsController : MonoBehaviour
 
         if (ball != null)
         {
-            if (OnScoredGoal != null) {
-                OnScoredGoal.Invoke(playerNumber);
-            }
-
+            goalsManager.ScoredGoal(playerNumber);
         }
     }
 }

@@ -7,6 +7,10 @@ public class StartGameCountdownController : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI countdownText;
-    public TextMeshProUGUI CountdownText { get { return countdownText; } }
+
+    public void DisplayCountdownText(string time)
+    {
+        countdownText.text = time;
+    }
 
 }

@@ -34,7 +34,7 @@ public class NewHighScorePanelController : MonoBehaviour
     private void OnContinueButtonClicked()
     {
         ReferencesHolder.Instance.LeadersBoardManager.AddNewHighScore
-            (inputField.text, ReferencesHolder.Instance.GameManager.GetChallengeScore());
+            (inputField.text, ((ChallengeModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetChallengeScore());
 
         ReferencesHolder.Instance.UIStateManager.CloseLastState();
     }
@@ -48,7 +48,7 @@ public class NewHighScorePanelController : MonoBehaviour
 
         HighscoreEntry entry;
         var leadersBoardList = ReferencesHolder.Instance.LeadersBoardManager.LeaderBoardList;
-        int score = ReferencesHolder.Instance.GameManager.GetChallengeScore() ;
+        int score = ((ChallengeModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetChallengeScore() ;
         int recordIndex = ReferencesHolder.Instance.LeadersBoardManager.CheckNewHighScore(score);
 
         int startIndex = recordIndex;

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 using UIControl;
 
@@ -21,7 +19,7 @@ public class LevelIntroPanelController : MonoBehaviour
 
     private void Populate()
     {
-        IntroText.text = ReferencesHolder.Instance.GameManager.GetLevelDescription() ;
+        IntroText.text = ReferencesHolder.Instance.GameManager.GameMode.GetLevelDescription() ;
     }
 
     private void OnPanelOpen(UIPanelsIDs id) 

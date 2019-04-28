@@ -770,6 +770,68 @@ Transform:
   m_Father: {fileID: 547861334}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &76162252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 76162253}
+  - component: {fileID: 76162254}
+  m_Layer: 0
+  m_Name: StoryModeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &76162253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76162252}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1428679442}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &76162254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76162252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e79e00cdaf30ec42977256b12dd4004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy1Prefab: {fileID: 1127045718756994141, guid: cc6b725e364bea644a316ef76b0bc5be,
+    type: 3}
+  enemy2Prefab: {fileID: 8751998553372936104, guid: 1de5c1985f5b8764f898e5eb1b4752cf,
+    type: 3}
+  enemy3Prefab: {fileID: 4426276813375554246, guid: b24e19e8557dc64499eb0adfe0244eb8,
+    type: 3}
+  HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
+    type: 3}
+  introLength: 3
+  ballStartPosition: {x: 0, y: 1.5, z: 3}
+  levelsDescription:
+  - 'STAGE 1: blue brick minion'
+  - 'STAGE 2: ripped blue brick'
+  - 'STAGE 3: bluish king brick'
+  storyModeScoreBoard: {fileID: 258600516}
+  timerCountdown: {fileID: 1782632534}
+  startGameCountdown: {fileID: 516309838}
+  RoundTime: 20
+  countdown: 3
 --- !u!1 &90680377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2131,7 +2193,7 @@ GameObject:
   - component: {fileID: 240158137}
   - component: {fileID: 240158140}
   m_Layer: 0
-  m_Name: GoalPlayer1
+  m_Name: GoalPlayer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2221,7 +2283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642891b3755d4df4ebe6117021360aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoalTriggerCollider: {fileID: 240158137}
   playerNumber: 1
 --- !u!1 &240530002
 GameObject:
@@ -2446,6 +2507,7 @@ GameObject:
   - component: {fileID: 258600513}
   - component: {fileID: 258600515}
   - component: {fileID: 258600514}
+  - component: {fileID: 258600516}
   m_Layer: 0
   m_Name: StoryModeScoreBoard
   m_TagString: Untagged
@@ -2512,6 +2574,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258600512}
   m_CullTransparentMesh: 0
+--- !u!114 &258600516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258600512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8d532f66a79cb43afa21956a1d3c1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 831011812}
+  player1ScoreText: {fileID: 1974463439}
+  player2ScoreText: {fileID: 1491073901}
 --- !u!1 &259526706
 GameObject:
   m_ObjectHideFlags: 0
@@ -2753,7 +2830,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 989719807}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &287826520
 MonoBehaviour:
@@ -8268,7 +8345,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806101549}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &811732255
+--- !u!1 &811510360
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8276,44 +8353,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 811732256}
-  - component: {fileID: 811732257}
+  - component: {fileID: 811510361}
+  - component: {fileID: 811510362}
   m_Layer: 0
-  m_Name: ScoreManager
+  m_Name: ChallengeModeManager (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &811732256
+--- !u!4 &811510361
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811732255}
+  m_GameObject: {fileID: 811510360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 989719807}
-  m_RootOrder: 4
+  m_Father: {fileID: 1428679442}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &811732257
+--- !u!114 &811510362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811732255}
+  m_GameObject: {fileID: 811510360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 360e274de98466042b9169b626169410, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d62f5adefa2c554e898bb9a564e1e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playersScore: 0000000000000000
-  player1ScoreText: {fileID: 1974463439}
-  player2ScoreText: {fileID: 1491073901}
+  wall: {fileID: 902012356}
+  challengeModeScoreboard: {fileID: 406310553}
+  storyModeScoreboard: {fileID: 258600512}
+  HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
+    type: 3}
+  introLength: 3
+  ballStartPosition: {x: 0, y: 1.5, z: 4}
+  difficultyIncrease: 0.15
+  countdown: 3
+  levelDescription: 'CHALLENGE: Face the randomizer wall!'
+  scoreBoard: {fileID: 406310557}
+  difficultyController: {fileID: 227518080}
+  timerCountdown: {fileID: 1782632534}
+  startGameCountdown: {fileID: 516309838}
 --- !u!1 &814385515
 GameObject:
   m_ObjectHideFlags: 0
@@ -8658,7 +8746,7 @@ GameObject:
   - component: {fileID: 831011813}
   - component: {fileID: 831011812}
   m_Layer: 0
-  m_Name: Timer
+  m_Name: TimerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9580,7 +9668,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 989719807}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &879880960
 MonoBehaviour:
@@ -10068,7 +10156,7 @@ Transform:
   m_Children:
   - {fileID: 961968037}
   m_Father: {fileID: 989719807}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &928087621
 MonoBehaviour:
@@ -10597,11 +10685,12 @@ Transform:
   - {fileID: 215105304}
   - {fileID: 1428679442}
   - {fileID: 1655038406}
-  - {fileID: 811732256}
   - {fileID: 928087620}
   - {fileID: 287826519}
   - {fileID: 879880959}
   - {fileID: 1369345000}
+  - {fileID: 1196182975}
+  - {fileID: 1782632533}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13145,6 +13234,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1188310210}
   m_CullTransparentMesh: 0
+--- !u!1 &1196182974
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1196182975}
+  - component: {fileID: 1196182976}
+  m_Layer: 0
+  m_Name: GoalsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1196182975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196182974}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 989719807}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1196182976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196182974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbaed23a3c471f40a416cb3566ad781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goals:
+  - {fileID: 1835096570}
+  - {fileID: 240158140}
 --- !u!1 &1199134856
 GameObject:
   m_ObjectHideFlags: 0
@@ -14681,7 +14816,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 989719807}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1369345001
 MonoBehaviour:
@@ -14991,8 +15126,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1428679442}
   - component: {fileID: 1428679443}
-  - component: {fileID: 1428679444}
-  - component: {fileID: 1428679445}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -15012,6 +15145,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 227518079}
+  - {fileID: 76162253}
+  - {fileID: 811510361}
   m_Father: {fileID: 989719807}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15028,71 +15163,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballManager: {fileID: 1655038407}
-  goalPlayer1: {fileID: 240158140}
-  goalPlayer2: {fileID: 1835096570}
-  scoreManager: {fileID: 811732257}
-  timerCountdown: {fileID: 1592450342}
+  goalsManager: {fileID: 1196182976}
   skillHudController: {fileID: 1865505209}
-  HumanPlayerPrefab: {fileID: 6941804758133158043, guid: 40581168822aaaa48a61742b6001cd66,
-    type: 3}
-  AIPlayerPrefab: {fileID: 1127045718756994140, guid: cc6b725e364bea644a316ef76b0bc5be,
-    type: 3}
-  storyModeManager: {fileID: 1428679444}
-  challengeModeManager: {fileID: 1428679445}
+  storyModeManager: {fileID: 76162254}
+  challengeModeManager: {fileID: 811510362}
   startGameCountdown: {fileID: 516309838}
-  RoundTime: 30
---- !u!114 &1428679444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428679441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e79e00cdaf30ec42977256b12dd4004, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy1Prefab: {fileID: 1127045718756994141, guid: cc6b725e364bea644a316ef76b0bc5be,
-    type: 3}
-  enemy2Prefab: {fileID: 8751998553372936104, guid: 1de5c1985f5b8764f898e5eb1b4752cf,
-    type: 3}
-  enemy3Prefab: {fileID: 4426276813375554246, guid: b24e19e8557dc64499eb0adfe0244eb8,
-    type: 3}
-  HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
-    type: 3}
-  introLength: 3
-  timerText: {fileID: 831011812}
-  ballStartPosition: {x: 0, y: 1.5, z: 3}
-  levelsDescription:
-  - 'STAGE 1: blue brick minion'
-  - 'STAGE 2: ripped blue brick'
-  - 'STAGE 3: bluish king brick'
---- !u!114 &1428679445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1428679441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d62f5adefa2c554e898bb9a564e1e2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeScore: 0
-  wall: {fileID: 902012356}
-  challengeModeScoreboard: {fileID: 406310553}
-  storyModeScoreboard: {fileID: 258600512}
-  introLength: 3
-  ballStartPosition: {x: 0, y: 1.5, z: 4}
-  HumanPlayerPrefab: {fileID: 6941804758133158049, guid: 40581168822aaaa48a61742b6001cd66,
-    type: 3}
-  difficultyIncrease: 0.15
-  scoreBoard: {fileID: 406310557}
-  difficultyController: {fileID: 227518080}
-  levelDescription: 'CHALLENGE: Face the randomizer wall!'
-  score: 0
 --- !u!1 &1435860476
 GameObject:
   m_ObjectHideFlags: 0
@@ -15469,7 +15544,7 @@ GameObject:
   - component: {fileID: 1491073902}
   - component: {fileID: 1491073901}
   m_Layer: 0
-  m_Name: ScorePlayer2
+  m_Name: Player2ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17075,7 +17150,6 @@ GameObject:
   - component: {fileID: 1592450341}
   - component: {fileID: 1592450340}
   - component: {fileID: 1592450339}
-  - component: {fileID: 1592450342}
   m_Layer: 0
   m_Name: ScoreBoardCanvas
   m_TagString: Untagged
@@ -17164,18 +17238,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &1592450342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592450337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b47abe93eef19c14aa03054ecffaddae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1593971937
 GameObject:
   m_ObjectHideFlags: 0
@@ -19477,6 +19539,49 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775130685}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1782632532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1782632533}
+  - component: {fileID: 1782632534}
+  m_Layer: 0
+  m_Name: TimerCountdown
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1782632533
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782632532}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 989719807}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1782632534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782632532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47abe93eef19c14aa03054ecffaddae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1784721579
 GameObject:
   m_ObjectHideFlags: 0
@@ -19756,7 +19861,7 @@ GameObject:
   - component: {fileID: 1835096567}
   - component: {fileID: 1835096570}
   m_Layer: 0
-  m_Name: GoalPlayer0
+  m_Name: GoalPlayer1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -19846,7 +19951,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642891b3755d4df4ebe6117021360aa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GoalTriggerCollider: {fileID: 1835096567}
   playerNumber: 0
 --- !u!1 &1865505205
 GameObject:
@@ -20737,7 +20841,7 @@ GameObject:
   - component: {fileID: 1974463440}
   - component: {fileID: 1974463439}
   m_Layer: 0
-  m_Name: ScorePlayer1
+  m_Name: Player1ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

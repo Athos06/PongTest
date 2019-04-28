@@ -85,7 +85,6 @@ public class BallManager : MonoBehaviour
 
     public void SpawnBall(Vector3 startPosition)
     {
-        Debug.Log("spawning ball");
         ActiveBall.gameObject.SetActive(true);
         ActiveBall.transform.position = startPosition;
     }

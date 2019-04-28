@@ -3,38 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class ScoreManager : MonoBehaviour
+public class ScoreManager
 {
-    [SerializeField]
-    int[] playersScore = { 0, 0 };
+    private int[] playersScore = { 0, 0 };
     public int[] PlayersScore {  get { return playersScore; } }
-    [SerializeField]
-    TextMeshProUGUI player1ScoreText;
-    [SerializeField]
-    TextMeshProUGUI player2ScoreText;
+    private StoryModeScoreBoard scoreBoard;
 
-    public void Initialize()
+    public ScoreManager(StoryModeScoreBoard scoreBoard)
     {
-        player1ScoreText.text = 0.ToString("00");
-        player2ScoreText.text = 0.ToString("00");
-        for(int i = 0; i< playersScore.Length; i++ ) playersScore[i] = 0;
+        this.scoreBoard = scoreBoard;
+        ResetScore();
     }
 
     public void ResetScore()
     {
-        player1ScoreText.text = 0.ToString("00");
-        player2ScoreText.text = 0.ToString("00");
+        Debug.Log("ok i reset score");
         for (int i = 0; i < playersScore.Length; i++) playersScore[i] = 0;
+        DisplayScore();
     }
 
     public void UpdateScoreGoal(int player, int score)
     {
+        Debug.Log("Update score goal");
         playersScore[player] += score;
-        if(player == 0)
-            player1ScoreText.text = playersScore[player].ToString("00");
-        else
-            player2ScoreText.text = playersScore[player].ToString("00");
+        DisplayScore();
     }
 
+    private void DisplayScore()
+    {
+        scoreBoard.SetScoreDisplay(playersScore[0].ToString("00"), playersScore[1].ToString("00"));
+    }
 
 }

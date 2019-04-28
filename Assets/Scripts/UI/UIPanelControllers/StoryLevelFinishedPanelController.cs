@@ -47,7 +47,7 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
     private void OnContinueButtonClicked()
     {
         //Debug.Log("level " + ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel + " number of levels " + ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels);
-        if(currentLevel < (ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels-1))
+        if (currentLevel < (ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels - 1))
         {
             ReferencesHolder.Instance.UIStateManager.CloseAll();
             ReferencesHolder.Instance.GameManager.RestartGame();
@@ -83,12 +83,12 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
 
     private void Populate()
     {
-        int[] score = ReferencesHolder.Instance.GameManager.GetScore();
+        int[] score = ((StoryModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetScore();
         scoreText.text = score[0].ToString() + " - " + score[1].ToString();
         continueButton.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(true);
 
-        if (ReferencesHolder.Instance.GameManager.GetWinnerPlayer() == 0)
+        if ( ((StoryModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetWinnerPlayer() == 0)
         {
             currentLevel = ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel;
             ReferencesHolder.Instance.GameManager.SavingManager.UnlockNextLevel();
@@ -97,12 +97,12 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
             winnerText.text = "YOU WON";
             winnerText.color = winnerTextColor;
         }
-        if (ReferencesHolder.Instance.GameManager.GetWinnerPlayer() == 1)
+        if ( ((StoryModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetWinnerPlayer() == 1)
         {
             winnerText.text = "YOU LOST";
             winnerText.color = loserTextColor;
         }
-        if (ReferencesHolder.Instance.GameManager.GetWinnerPlayer() == -1)
+        if ( ((StoryModeManager)ReferencesHolder.Instance.GameManager.GameMode).GetWinnerPlayer() == -1)
         {
             winnerText.text = "DRAW";
             winnerText.color = drawTextColor;
