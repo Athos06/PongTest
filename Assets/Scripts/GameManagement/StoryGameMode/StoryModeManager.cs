@@ -6,15 +6,6 @@ using UIControl;
 
 public class StoryModeManager : MonoBehaviour, IGameMode
 {
-    [SerializeField]
-    public CharacterController enemy1Prefab;
-    [SerializeField]
-    public CharacterController enemy2Prefab;
-    [SerializeField]
-    public CharacterController enemy3Prefab;
-    [SerializeField]
-    private CharacterController HumanPlayerPrefab;
-
     [Header("References")]
     [SerializeField]
     private StoryModeScoreBoard storyModeScoreBoard;
@@ -81,25 +72,23 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         switch (level)
         {
             case 0:
-                player2 = Instantiate(enemy1Prefab);
+                player2 = ReferencesHolder.Instance.CharacterFactory.CreateCharacter(CharacterFactory.CharactersType.Enemy1);
                 player2.SetInput(new NoobAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
             case 1:
-                player2 = Instantiate(enemy2Prefab);
+                player2 = ReferencesHolder.Instance.CharacterFactory.CreateCharacter(CharacterFactory.CharactersType.Enemy2);
                 player2.SetInput(new IntermediateAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
             case 2:
-                player2 = Instantiate(enemy3Prefab);
+                player2 = ReferencesHolder.Instance.CharacterFactory.CreateCharacter(CharacterFactory.CharactersType.Enemy3); ;
                 player2.SetInput(new AdvancedAIInput(player2.gameObject.transform, BallManager.ActiveBall));
                 break;
         }
 
         player2.Intialize();
-        
-        player1 = Instantiate(HumanPlayerPrefab);
+        player1 = ReferencesHolder.Instance.CharacterFactory.CreateCharacter(CharacterFactory.CharactersType.Player);
         player1.Intialize();
         player1.SetInput(new PlayerInput());
-
         gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
         ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartEnemyIntro);
     }
@@ -160,6 +149,8 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void RestartGameMode()
     {
+
+        
         if (player1 != null)
         {
             Destroy(player1.gameObject);

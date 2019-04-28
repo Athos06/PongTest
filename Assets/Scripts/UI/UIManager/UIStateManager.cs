@@ -7,14 +7,14 @@ namespace UIControl {
 	/// UILayouts and UIPanels
 	/// </summary>
 	public class UIStateManager : MonoBehaviour {
-		// events //
-		public delegate void OpenLayoutAction (UILayoutsIDs id);
+        #region events
+        public delegate void OpenLayoutAction (UILayoutsIDs id);
 		public event OpenLayoutAction OnLayoutOpen;
-
 		public delegate void OpenPanelAction (UIPanelsIDs id);
 		public event OpenPanelAction OnPanelOpen;
+        #endregion
 
-		[Header ("LAYOUTS")]
+        [Header ("LAYOUTS")]
 		[Tooltip ("Drag and drop all the used UILayouts here to add them and be able to use them")]
 		[SerializeField]
 		private List<UILayout> _UILayoutsList = new List<UILayout> ();
@@ -30,13 +30,9 @@ namespace UIControl {
 			get { return _interactionDisabler; }
 		}
 
-		/// <summary>
-		/// Dictionary with all the availables UILayouts
-		/// </summary>
-		private Dictionary<UILayoutsIDs, UILayout> _layoutsDictionary;
-		/// <summary>
-		/// Dictionary with all the availables UIPanels
-		/// </summary>
+        private bool initialized = false;
+        
+        private Dictionary<UILayoutsIDs, UILayout> _layoutsDictionary;
 		private Dictionary<UIPanelsIDs, UIPanel> _panelsDictionary;
 
 		/// <summary>
@@ -58,33 +54,12 @@ namespace UIControl {
 			}
 		}
 
-		/// <summary>
-		/// Lazy singleton
-		/// </summary>
-		private static UIStateManager _instance = null;
-		public static UIStateManager Instance {
-			get {
-				if (_instance == null)
-					_instance = (UIStateManager)FindObjectOfType (typeof (UIStateManager));
-				return _instance;
-			}
-		}
-
-		public void Awake ()
-		{
-			if (_instance == null) _instance = this;
-		}
-
-		bool _initialized = false;
-		/// <summary>
-		/// Called for initialization. Should be called from the app entry point
-		/// </summary>
 		public void Initialize ()
 		{
-			if (_initialized)
+			if (initialized)
 				return;
 
-			_initialized = true;
+			initialized = true;
 
 			_interactionDisabler.Initialize ();
 
@@ -130,11 +105,6 @@ namespace UIControl {
 					_layoutsDictionary.Add (layout.GetLayoutID, layout);
 				}
 			}
-
-			////And finally we will just open the start layout (login in this case)
-			////IMPORTANT TODO this should be done better at the entry point of the app, somewhere else controlling the app flow
-			////not here in the UIStateManager though
-			//OpenLayout (UILayoutsIDs.DownloadModel);
 		}
 
 
@@ -145,8 +115,6 @@ namespace UIControl {
 		/// </summary>
 		public void CloseAll ()
 		{
-//			Debug.Log ("------Close all " + _UIStatesStack.Count);
-
 			if (_UIStatesStack.Count > 0) {
 				for (int i = _UIStatesStack.Count; i > 0; i--) {
 					var state = _UIStatesStack.Pop ();
@@ -182,13 +150,11 @@ namespace UIControl {
 		/// with the previous one)</param>
 		public void OpenLayout (UILayoutsIDs layoutID, bool openOnTop = false)
 		{
-            //Debug.Log("Open layout " + layoutID);
             _currentLayoutOpen = layoutID;
 			List<UIPanel> panels = new List<UIPanel> ();
 
 			foreach (var panelID in FindLayoutByID (layoutID).GetPanelsList ()) {
-//				Debug.Log ("Panel ID  " + panelID);
-				panels.Add (UIStateManager.Instance.FindPanelByID (panelID));
+				panels.Add (FindPanelByID (panelID));
 			}
 
 			UIState newState = new UIState (panels);

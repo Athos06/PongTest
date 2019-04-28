@@ -54,11 +54,11 @@ namespace UIControl
             //we increase the counter for each disable from each panel
             _disablesCount++;
 
-            if (panelInfo != null)
-            {
-                //Debug.Log("-- Panel " + panelInfo + " disabled UI interaction "
-                //    + " (total intereaction disables count " + _disablesCount + " )");
-            }
+            //if (panelInfo != null)
+            //{
+            //    //Debug.Log("-- Panel " + panelInfo + " disabled UI interaction "
+            //    //    + " (total intereaction disables count " + _disablesCount + " )");
+            //}
 
             _canvasGroup.alpha = 1;
             _canvasGroup.blocksRaycasts = true;
@@ -80,11 +80,11 @@ namespace UIControl
                 Debug.LogError("The disables count in the UIInteractionDisabler is less than 0, this shouldnt happen, check for errors");
             }
 
-            if(panelInfo != null)
-            {
-                //Debug.Log("++ Panel " + panelInfo + " enabled UI interaction "
-                //    + " (total intereaction disables count " + _disablesCount + " )" );
-            }
+            //if(panelInfo != null)
+            //{
+            //    //Debug.Log("++ Panel " + panelInfo + " enabled UI interaction "
+            //    //    + " (total intereaction disables count " + _disablesCount + " )" );
+            //}
             
             //when we dont have any disables it means all animations finished and therefore the transition is over and
             //we can enable the interaction again

@@ -110,7 +110,6 @@ namespace UIControl
             }
             else
             {
-                //Debug.LogWarning("Missing animator in panel " + name + " !");
                 gameObject.SetActive(true);
             }            
 
@@ -122,8 +121,6 @@ namespace UIControl
         /// </summary>
         public virtual void Close()
         {
-			//Debug.Log ("NAME" + this.gameObject.name);
-			//Debug.Log (_animator != null);
             //we shouldnt try to close an already closed panel
             if (!_isOpen)
                 return;
@@ -145,7 +142,7 @@ namespace UIControl
         {
             //when the animation starts iti means a UI transition is happening so 
             //we call the UIInteractionDisabler to disable the interaction during the transition
-            UIStateManager.Instance.GetUIInteractionDisabler.DisableUIInteraction(this);
+            ReferencesHolder.Instance.UIStateManager.GetUIInteractionDisabler.DisableUIInteraction(this);
         }
 
         private void OnAnimationEnded()
@@ -153,7 +150,7 @@ namespace UIControl
             if (!_isOpen) { }
             //When the animation ends we want to enable back the interaction since it means
             //the transition is over
-            UIStateManager.Instance.GetUIInteractionDisabler.EnableUIInteraction(this);
+            ReferencesHolder.Instance.UIStateManager.GetUIInteractionDisabler.EnableUIInteraction(this);
         }
 
     }

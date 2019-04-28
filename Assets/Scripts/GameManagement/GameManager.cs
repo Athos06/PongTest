@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 0;
             IsGamePaused = true;
-            UIStateManager.Instance.OpenLayout(UILayoutsIDs.PauseLayout, true);
+            ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.PauseLayout, true);
             if (OnGamePause != null)
                 OnGamePause.Invoke(true);
         }
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
             IsGamePaused = false;
-            UIStateManager.Instance.CloseLastState();
+            ReferencesHolder.Instance.UIStateManager.CloseLastState();
             if (OnGamePause != null)
                 OnGamePause.Invoke(false);
         }

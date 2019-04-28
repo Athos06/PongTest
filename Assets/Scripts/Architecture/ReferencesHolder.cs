@@ -50,6 +50,13 @@ public class ReferencesHolder : MonoBehaviour
         get { return camerasController; }
     }
 
+    [SerializeField]
+    private CharacterFactory characterFactory;
+    public CharacterFactory CharacterFactory
+    {
+        get { return characterFactory; }
+    }
+
     private void Awake()
     {
         if (instance == null)

@@ -46,7 +46,6 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
 
     private void OnContinueButtonClicked()
     {
-        //Debug.Log("level " + ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel + " number of levels " + ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels);
         if (currentLevel < (ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels - 1))
         {
             ReferencesHolder.Instance.UIStateManager.CloseAll();
@@ -70,7 +69,6 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.GameManager.FinishGame();
-        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
     }
 
     private void OnLayoutOpen(UILayoutsIDs id)

@@ -16,8 +16,6 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     private GameObject challengeModeScoreboard;
     [SerializeField]
     private GameObject storyModeScoreboard;
-    [SerializeField]
-    private CharacterController HumanPlayerPrefab;
     [Header("Settings")]
     [SerializeField]
     private float introLength = 3.0f;
@@ -71,7 +69,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         wall.SetActive(true);
         challengeModeScoreboard.SetActive(true);
         storyModeScoreboard.SetActive(false);
-        player1 = Instantiate(HumanPlayerPrefab);
+        player1 = ReferencesHolder.Instance.CharacterFactory.CreateCharacter(CharacterFactory.CharactersType.Player);
         player1.Intialize();
         player1.SetInput(new PlayerInput());
         gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());

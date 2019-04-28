@@ -160,9 +160,7 @@ public class BallManager : MonoBehaviour
     public void ModifyBallDirection(float dirEffect)
     {
         Vector3 directionVector = ActiveBall.RigidBody.velocity.normalized;
-        //Debug.Log("FIRST ball direction vector " + directionVector);
         directionVector.x += dirEffect;
-        //Debug.Log("SECOND ball direction vector " + directionVector);
         ActiveBall.RigidBody.velocity = directionVector.normalized * ballCurrentMinSpeed;
     }
 

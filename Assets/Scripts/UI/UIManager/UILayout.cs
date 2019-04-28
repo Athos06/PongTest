@@ -47,7 +47,7 @@ namespace UIControl
 
             foreach (var panelID in _UIPanelsIDs)
             {
-                UIStateManager.Instance.OpenPanel(panelID);
+                ReferencesHolder.Instance.UIStateManager.OpenPanel(panelID);
             }
 
         }
@@ -61,7 +61,7 @@ namespace UIControl
 
             foreach (var panelID in _UIPanelsIDs)
             {
-                UIStateManager.Instance.ClosePanel(panelID);
+                ReferencesHolder.Instance.UIStateManager.ClosePanel(panelID);
             }
         }
     }
