@@ -7,108 +7,41 @@ public class Ball : MonoBehaviour
 {
     [SerializeField]
     private Rigidbody rigidBody;
+    public Rigidbody RigidBody { get { return rigidBody; } }
 
     [SerializeField]
     private float minZSpeed = 1.0f;
 
     private Vector3 startPosition;
+    private BallManager ballManager;
 
-
-    public void Initialize(Vector3 startPosition)
+    public void Initialize(Vector3 startPosition, BallManager ballManager)
     {
         if (rigidBody == null)
             rigidBody = GetComponent<Rigidbody>();
 
+        this.ballManager = ballManager;
         this.startPosition = startPosition;
-        //LaunchBall();
     }
 
-    private bool ballStarted = false;
-    //// Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-
-        if (!ballStarted)
-            return;
-
-        if (Mathf.Abs(rigidBody.velocity.z) < 8)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Vector3 velocity = rigidBody.velocity;
-            if (rigidBody.velocity.z < 0)
+            CharacterController charController = collision.gameObject.GetComponent<CharacterController>();
+            if (charController != null)
             {
-                velocity.z = -8;
+                Debug.Log("player collision " + charController.MovementVector.normalized.x / 2);
+                ballManager.ModifyBallDirection(charController.MovementVector.normalized.x/2);
             }
-            else
-            {
-                velocity.z = 8;
-            }
-
-            rigidBody.velocity = velocity;
-
         }
-    }
-
-
-    [ContextMenu("DebugThrowBall")]
-    public void LaunchBall()
-    {
-        ballStarted = true;
-        gameObject.SetActive(true);
-        transform.position = startPosition;
-        //transform.position = Vector3.zero;
-        //Ball Chooses a direction
-        //Flies that direction
-
-        //Flip a coin, determine direction in x-axis
-        int xDirection = Random.Range(0, 2);
-
-        //Flip another coin, determine direction in y-axis
-        int yDirection = Random.Range(0, 2);
-
-
-        Vector3 launchDirection = new Vector3();
-
-        //Check results of one coin toss
-        if (xDirection == 0)
+        else if (collision.gameObject.CompareTag("ChallengeWall"))
         {
-
-            launchDirection.x = -8f;
+            WallController wallController = collision.gameObject.GetComponent<WallController>();
+            float dir = wallController.GetRandomizerPosition();
+            Debug.Log(" Test " + dir);
+            ballManager.ModifyBallDirection(dir);
         }
-        if (xDirection == 1)
-        {
-
-            launchDirection.x = 8f;
-        }
-
-        //Check results of second coin toss
-        if (yDirection == 0)
-        {
-            launchDirection.z = 8f;
-        }
-        if (yDirection == 1)
-        {
-            launchDirection.z = 8f;
-        }
-
-        //Assign velocity based off of where we launch ball
-        rigidBody.velocity = launchDirection;
-        //Debug.Log(launchDirection);
     }
 
-    public void DisableBall()
-    {
-        gameObject.SetActive(false);
-    }
-
-    public void GoalScored()
-    {
-        gameObject.SetActive(false);
-    }
-
-    [ContextMenu("Respawn")]
-    public void RespawnBall()
-    {
-        gameObject.SetActive(true);
-        LaunchBall();
-    }
 }

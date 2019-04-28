@@ -12,7 +12,6 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     //debug
     public int timeScore = 0;
     public int TimeScore { get { return timeScore; } }
-    public Ball ball;
     [SerializeField]
     private GameObject wall;
     [SerializeField]
@@ -22,13 +21,18 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     [SerializeField]
     private float introLength = 3.0f;
     [SerializeField]
+    private Vector3 ballStartPosition;
+    [SerializeField]
     private CharacterController HumanPlayerPrefab;
 
     [SerializeField]
     private ChallengeModeScoreboard scoreBoard;
+    [SerializeField]
+    private ChallengeDifficultyController difficultyController;
 
     [TextArea, SerializeField]
     private string levelDescription;
+    
     public string GetLevelDescription()
     {
         return levelDescription;
@@ -38,11 +42,20 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     private bool subcribedToEvents = false;
 
+    
+
     public void Initialize(GameManager gameManager)
     {
         this.gameManager = gameManager;
+        difficultyController.Initialize(this);
         
     }
+
+    public void IncreaseDifficulty()
+    {
+        gameManager.BallManager.ModifyBallSpeed(0.5f);
+    }
+
 
     public void StartGameMode()
     {
@@ -78,7 +91,9 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.EnemyNamePanel);
         yield return new WaitForSeconds(introLength);
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.EnemyNamePanel);
+        gameManager.BallManager.SpawnBall(ballStartPosition);
         gameManager.StartGame();
+        difficultyController.StartDiffiultyIncreasing();
         yield return null;
     }
 
@@ -86,13 +101,13 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     public void GameModeOver()
     {
+        difficultyController.Stop();
         score = gameManager.TimerCountdown.TimerCurrentTime;
 
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.ChallengeLevelFinishedLayout);
         if (ReferencesHolder.Instance.LeadersBoardManager.CheckNewHighScore(score) > -1)
         {
-            Debug.Log("new score, we should show insert name for leaderboard");
             ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.NewHighScoreLayout, true);
         }
 
@@ -136,12 +151,15 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     private void OnScoredGoal(int player)
     {
+        gameManager.BallManager.GoalScored();
         GameModeOver();
+
     }
 
     private void OnGameStarted()
     {
         gameManager.StartTimer(scoreBoard.TimerText, false);
+        gameManager.BallManager.LaunchBall(1);
     }
   
 }

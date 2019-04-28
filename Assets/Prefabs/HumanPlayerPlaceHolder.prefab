@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 8004507790771058364}
   m_Layer: 0
   m_Name: HumanPlayerPlaceHolder
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -353,9 +353,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 6
   movementRange: 6.5
-  isIdle: 1
-  debugAI: 0
   skillController: {fileID: 8004507790771058364}
+  debugAI: 0
 --- !u!114 &8004507790771058364
 MonoBehaviour:
   m_ObjectHideFlags: 0

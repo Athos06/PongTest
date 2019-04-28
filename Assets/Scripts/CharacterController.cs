@@ -17,6 +17,7 @@ public class CharacterController : MonoBehaviour
 
     public bool debugAI = false;
     private Vector3 movementVector;
+    public Vector3 MovementVector {  get { return movementVector; } }
     private ICharacterInput playerInput;
 
     
@@ -40,11 +41,6 @@ public class CharacterController : MonoBehaviour
             ReferencesHolder.Instance.GameManager.OnGamePause += OnGamePause;
         }
         
-    }
-
-    private void Update()
-    {
-
     }
 
     private void LateUpdate()

@@ -89,6 +89,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AIPlayer3PlaceHolder Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1127045718756994141, guid: cc6b725e364bea644a316ef76b0bc5be,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1127045718756994114, guid: cc6b725e364bea644a316ef76b0bc5be,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -143,11 +148,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1127045718756994141, guid: cc6b725e364bea644a316ef76b0bc5be,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc6b725e364bea644a316ef76b0bc5be, type: 3}

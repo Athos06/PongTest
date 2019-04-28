@@ -10,7 +10,7 @@ public class AIInput : ICharacterInput
 
     public AIInput(Transform character)
     {
-        this.ball = ReferencesHolder.Instance.GameManager.GetActiveBall();
+        this.ball = ReferencesHolder.Instance.GameManager.BallManager.ActiveBall;
         this.character = character;
     }
 

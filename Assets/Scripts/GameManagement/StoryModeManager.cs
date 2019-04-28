@@ -22,6 +22,8 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     [SerializeField]
     private TextMeshProUGUI timerText;
+    [SerializeField]
+    private Vector3 ballStartPosition;
 
     [TextArea, SerializeField]
     private string[] levelsDescription;
@@ -56,6 +58,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
             subcribedToEvents = true;
             gameManager.OnCountdownFinishedEvent += OnCountdownFinishedEvent;
             gameManager.OnGameStarted += OnGameStarted;
+            gameManager.OnScoredGoalEvent += OnGoalScore;
         }
 
         switch (level)
@@ -87,6 +90,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.EnemyNamePanel);
         yield return new WaitForSeconds(introLength);
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.EnemyNamePanel);
+        gameManager.BallManager.SpawnBall(ballStartPosition);
         gameManager.StartGame();
         yield return null;
     }
@@ -161,5 +165,12 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     private void OnGameStarted()
     {
         gameManager.StartTimer(timerText, true);
+        gameManager.BallManager.KickOff(ballStartPosition);
+    }
+
+    private void OnGoalScore(int player)
+    {
+        gameManager.BallManager.GoalScored();
+        gameManager.BallManager.KickOff(ballStartPosition);
     }
 }

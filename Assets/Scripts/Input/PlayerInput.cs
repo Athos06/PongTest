@@ -11,6 +11,7 @@ public class PlayerInput : ICharacterInput
     {
         ((MovementCommand)movementCommand).MovementeVector = Vector3.zero;
         List<Command> inputCommands = new List<Command>();
+        inputCommands.Add(movementCommand);
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {

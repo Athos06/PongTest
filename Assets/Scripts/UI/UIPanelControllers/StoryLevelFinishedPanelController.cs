@@ -35,7 +35,6 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log("initialized");
         ReferencesHolder.Instance.UIStateManager.OnLayoutOpen += OnLayoutOpen;
         continueButton.onClick.RemoveAllListeners();
         continueButton.onClick.AddListener(OnContinueButtonClicked);

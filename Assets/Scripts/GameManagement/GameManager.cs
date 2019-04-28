@@ -22,8 +22,10 @@ public class GameManager : MonoBehaviour
     public bool IsGamePause { get; private set; }
     public bool IsGamePlaying { get; private set; }
 
+    
     [SerializeField]
-    private Ball ballPrefab;
+    private BallManager ballManager;
+    public BallManager BallManager {  get { return ballManager; } }
     [SerializeField]
     private GoalsController goalPlayer1;
     [SerializeField]
@@ -54,19 +56,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private int RoundTime = 10;
-    [SerializeField]
-    private Vector3 ballStartPosition;
-
     private SavingManager savingManager;
     public SavingManager SavingManager { get { return savingManager; } }
 
-    private Ball ball;
     private Coroutine StartingGameCoroutine;
-
-    public Ball GetActiveBall()
-    {
-        return ball;
-    }
 
     public void Initialize()
     {
@@ -128,11 +121,7 @@ public class GameManager : MonoBehaviour
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameModeActive.FinishGameMode);
 
-        if (ball != null)
-        {
-            Destroy(ball.gameObject);
-            ball = null;
-        }
+        ballManager.DestroyBall();
 
         scoreManager.ResetScore();
     }
@@ -180,14 +169,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGameMode(GameModes gameMode)
     {
-
-        if (ball == null)
-        {
-            ball = Instantiate(ballPrefab);
-            ball.name = "ball";
-            ball.Initialize(ballStartPosition);
-            ball.gameObject.SetActive(false);
-        }
+        ballManager.Initialize();
 
         switch (gameMode)
         {
@@ -225,8 +207,6 @@ public class GameManager : MonoBehaviour
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
 
-        ball.LaunchBall();
-
         if (OnGameStarted != null)
             OnGameStarted.Invoke();
 
@@ -235,7 +215,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        ball.DisableBall();
+        ballManager.DisableBall();
         timerCountdown.StopTimer();
 
         if (OnGameOver != null)
@@ -247,22 +227,14 @@ public class GameManager : MonoBehaviour
     {
         IsGamePlaying = false;
 
-        if (ball != null)
-        {
-            Destroy(ball.gameObject);
-            ball = null;
-        }
+        ballManager.DestroyBall();
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameModeActive.FinishGameMode);
         scoreManager.ResetScore();
     }
 
     public void RestartGame()
     {
-        if (ball != null)
-        {
-            Destroy(ball.gameObject);
-            ball = null;
-        }
+        ballManager.DestroyBall();
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameModeActive.RestartGameMode);
         scoreManager.ResetScore();
     }
@@ -271,9 +243,6 @@ public class GameManager : MonoBehaviour
     {
 
         scoreManager.UpdateScoreGoal(player, 1);
-        ball.GoalScored();
-        ball.RespawnBall();
-
         if (OnScoredGoalEvent != null)
             OnScoredGoalEvent.Invoke(player);
 
