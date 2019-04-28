@@ -37,6 +37,7 @@ public class CharacterController : MonoBehaviour
             subcscribedToEvents = true;
             ReferencesHolder.Instance.GameManager.OnGameStarted += OnGameStarted;
             ReferencesHolder.Instance.GameManager.OnGameOver += OnGameOver;
+            ReferencesHolder.Instance.GameManager.OnGamePause += OnGamePause;
         }
         
     }
@@ -105,5 +106,10 @@ public class CharacterController : MonoBehaviour
     private void OnGameOver()
     {
         inputEnabled = false;
+    }
+
+    private void OnGamePause(bool paused)
+    {
+        inputEnabled = !paused;
     }
 }

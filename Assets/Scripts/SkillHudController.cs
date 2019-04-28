@@ -12,9 +12,9 @@ public class SkillHudController : MonoBehaviour
 
     private bool Initialized = false;
 
-    public void Initialize(GameObject character)
+    public void Initialize(CharacterSkillController character)
     {
-        this.characterSkillController = character.GetComponent<CharacterSkillController>();
+        this.characterSkillController = character;
         Initialized = true;
     }
 

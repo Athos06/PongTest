@@ -7,52 +7,52 @@ public class LeadersBoardManager : MonoBehaviour
 
     [SerializeField]
     private List<HighScoreData> leaderBoardList = new List<HighScoreData>();
-    public List<HighScoreData> LeaderBoardList {  get { return leaderBoardList; } }
+    public List<HighScoreData> LeaderBoardList { get { return leaderBoardList; } }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        Initialize();
-    }
+    //// Start is called before the first frame update
+    //void Start()
+    //{
+    //    Initialize();
+    //}
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public bool CheckNewHighScore(int score)
+    public int CheckNewHighScore(int score)
     {
-        foreach(var highScore in leaderBoardList)
+        int index = 0;
+        foreach (var highScore in leaderBoardList)
         {
-            if(score > highScore.scoreInSeconds)
+            if (score > highScore.scoreInSeconds)
             {
-                return true;
+                return index;
             }
+            index++;
         }
 
-        return false;
+        return -1;
     }
 
     public void AddNewHighScore(string name, int score)
     {
-        Debug.Log("trying to add new Highscore " + name + " " + score);
         HighScoreData newHighScore = new HighScoreData(name, score);
-        HighScoreData replaceHighScore = new HighScoreData();
 
-        bool replaced = false;
-        for(int i = 0; i < leaderBoardList.Count; i++)
+        for (int i = 0; i < leaderBoardList.Count; i++)
         {
-            if (replaced)
+            if (score > leaderBoardList[i].scoreInSeconds)
             {
-                HighScoreData tempHighScore = leaderBoardList[i];
-                leaderBoardList[i] = replaceHighScore;
-            }
-            else if (score > leaderBoardList[i].scoreInSeconds)
-            {
-                replaceHighScore = leaderBoardList[i];
-                leaderBoardList[i] = newHighScore;
-                replaced = true;
+                var tempList = leaderBoardList.GetRange(i, leaderBoardList.Count - 1 - i);
+                //Debug.Log("remove range i " + i + " count " + (leaderBoardList.Count - 1 - i) );
+                leaderBoardList.RemoveRange(i, leaderBoardList.Count - i);
+                leaderBoardList.Add(newHighScore);
+                //foreach (var a in leaderBoardList) Debug.Log(a.playerName);
+                leaderBoardList.AddRange(tempList);
+                //Debug.Log("======================");
+                //foreach (var a in leaderBoardList) Debug.Log(a.playerName);
+                break;
             }
         }
 
@@ -75,13 +75,9 @@ public class LeadersBoardManager : MonoBehaviour
     [ContextMenu("LoadFile")]
     public void LoadLeadersBoard()
     {
-        leaderBoardList = LeaderboardSystem.LoadHighScore();
-
-        ////debug
-        //foreach (var hs in LeaderboardSystem.LoadHighScore())
-        //{
-        //    Debug.Log(hs.playerName);
-        //}
+        var list = LeaderboardSystem.LoadHighScore();
+        if (list == null)
+            SaveLeadersBoard();
     }
 
 }

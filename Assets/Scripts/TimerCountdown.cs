@@ -11,7 +11,8 @@ public class TimerCountdown : MonoBehaviour
     private TextMeshProUGUI timerText;
 
     private int countdownTime;
-    private int countdownCurrentTime;
+    private int timerCurrentTime;
+    public int TimerCurrentTime {  get { return timerCurrentTime; } }
 
     private Coroutine timerCoroutine;
 
@@ -20,17 +21,9 @@ public class TimerCountdown : MonoBehaviour
     {
         this.timerText = timerText;
         countdownTime = timeSeconds;
-        countdownCurrentTime = countdownTime;
+        timerCurrentTime = countdownTime;
         timerCoroutine = StartCoroutine(CountdownCoroutine());
     }
-    
-    //public void StopCountdown()
-    //{
-    //    if(timerCoroutine != null)
-    //    {
-    //        StopCoroutine(timerCoroutine);
-    //    }
-    //}
 
 
     public void StartTimer(TextMeshProUGUI timerText)
@@ -53,8 +46,8 @@ public class TimerCountdown : MonoBehaviour
         while(countdown >= 0)
         {
             countdown -= Time.deltaTime;
-            countdownCurrentTime = (int)countdown;
-            timerText.text = TimeFormatHelper.GetTimeInFormat(countdownCurrentTime);
+            timerCurrentTime = (int)countdown;
+            timerText.text = TimeFormatHelper.GetTimeInFormat(timerCurrentTime);
             yield return null;
         }
 
@@ -71,8 +64,8 @@ public class TimerCountdown : MonoBehaviour
         while (countdown >= 0)
         {
             countdown += Time.deltaTime;
-            countdownCurrentTime = (int)countdown;
-            timerText.text = TimeFormatHelper.GetTimeInFormat(countdownCurrentTime);
+            timerCurrentTime = (int)countdown;
+            timerText.text = TimeFormatHelper.GetTimeInFormat(timerCurrentTime);
             yield return null;
         }
 

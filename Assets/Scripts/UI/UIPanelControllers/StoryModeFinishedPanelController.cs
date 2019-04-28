@@ -20,8 +20,6 @@ public class StoryModeFinishedPanelController : MonoBehaviour
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.GameManager.FinishGame();
-
-
     }
 
 }

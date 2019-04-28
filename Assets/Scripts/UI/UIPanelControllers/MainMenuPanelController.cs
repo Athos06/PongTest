@@ -25,6 +25,9 @@ public class MainMenuPanelController : MonoBehaviour
         startChallengeModeButton.onClick.AddListener(OnStartChallengeModeClicked);
         continueStoryModeButton.onClick.RemoveAllListeners();
         continueStoryModeButton.onClick.AddListener(OnContinueStoryModeClicked);
+        exitGameButton.onClick.RemoveAllListeners();
+        exitGameButton.onClick.AddListener(OnExitGameClicked);
+
         if (ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel == -1)
         {
             continueStoryModeButton.interactable = false;
@@ -36,24 +39,23 @@ public class MainMenuPanelController : MonoBehaviour
         ReferencesHolder.Instance.GameManager.SavingManager.RestartStoryMode();
         ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
     }
 
     private void OnContinueStoryModeClicked()
     {
         ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Story);
         ReferencesHolder.Instance.UIStateManager.CloseAll();
-        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
     }
 
     private void OnStartChallengeModeClicked()
     {
-        ReferencesHolder.Instance.GameManager.StartGameMode(GameManager.GameModes.Challenge);
-        ReferencesHolder.Instance.UIStateManager.CloseAll();
-        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.StartChallengeLayout);
     }
 
-
+    private void OnExitGameClicked()
+    {
+        Application.Quit();
+    }
 
 
     private void OnStoryModeStarted()

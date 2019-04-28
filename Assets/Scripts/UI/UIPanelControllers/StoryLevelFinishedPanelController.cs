@@ -25,6 +25,9 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
     [SerializeField]
     private Color drawTextColor;
 
+    private int currentLevel;
+    private int nextLevel;
+
     private void Awake()
     {
         Initialize();
@@ -44,10 +47,8 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
 
     private void OnContinueButtonClicked()
     {
-        Debug.Log("level " + ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel);
-        if (ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel <
-            ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels-1)
-
+        //Debug.Log("level " + ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel + " number of levels " + ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels);
+        if(currentLevel < (ReferencesHolder.Instance.GameManager.SavingManager.NumberOfLevels-1))
         {
             ReferencesHolder.Instance.UIStateManager.CloseAll();
             ReferencesHolder.Instance.GameManager.RestartGame();
@@ -90,6 +91,7 @@ public class StoryLevelFinishedPanelController : MonoBehaviour
 
         if (ReferencesHolder.Instance.GameManager.GetWinnerPlayer() == 0)
         {
+            currentLevel = ReferencesHolder.Instance.GameManager.SavingManager.ContinueLevel;
             ReferencesHolder.Instance.GameManager.SavingManager.UnlockNextLevel();
             continueButton.gameObject.SetActive(true);
             restartButton.gameObject.SetActive(false);

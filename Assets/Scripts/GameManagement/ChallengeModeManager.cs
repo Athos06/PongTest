@@ -25,8 +25,14 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
     private CharacterController HumanPlayerPrefab;
 
     [SerializeField]
-    private TextMeshProUGUI timerText;
+    private ChallengeModeScoreboard scoreBoard;
 
+    [TextArea, SerializeField]
+    private string levelDescription;
+    public string GetLevelDescription()
+    {
+        return levelDescription;
+    }
 
     private CharacterController player1;
 
@@ -47,12 +53,15 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
             gameManager.OnGameStarted += OnGameStarted;
         }
 
-        timerText.text = "0:00";
+        
+
+        scoreBoard.Initialize();
         wall.SetActive(true);
         challengeModeScoreboard.SetActive(true);
         storyModeScoreboard.SetActive(false);
 
         player1 = Instantiate(HumanPlayerPrefab);
+        gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
 
         ReferencesHolder.Instance.CamerasController.SetEnemyIntroCamera();
         ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartIntro);
@@ -73,11 +82,15 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         yield return null;
     }
 
+    public int score;
+
     public void GameModeOver()
     {
+        score = gameManager.TimerCountdown.TimerCurrentTime;
+
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.ChallengeLevelFinishedLayout);
-        if (ReferencesHolder.Instance.LeadersBoardManager.CheckNewHighScore(5))
+        if (ReferencesHolder.Instance.LeadersBoardManager.CheckNewHighScore(score) > -1)
         {
             Debug.Log("new score, we should show insert name for leaderboard");
             ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.NewHighScoreLayout, true);
@@ -128,6 +141,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
 
     private void OnGameStarted()
     {
-        gameManager.StartTimer(timerText, false);
+        gameManager.StartTimer(scoreBoard.TimerText, false);
     }
+  
 }

@@ -23,6 +23,14 @@ public class StoryModeManager : MonoBehaviour, IGameMode
     [SerializeField]
     private TextMeshProUGUI timerText;
 
+    [TextArea, SerializeField]
+    private string[] levelsDescription;
+
+    public string GetLevelDescription()
+    {
+        return levelsDescription[GetLevel()];
+    }
+
     private CharacterController player1;
     private CharacterController player2;
 
@@ -64,6 +72,7 @@ public class StoryModeManager : MonoBehaviour, IGameMode
         }
 
         player1 = Instantiate(HumanPlayerPrefab);
+        gameManager.SKillHudController.Initialize(player1.GetComponent<CharacterSkillController>());
 
         ReferencesHolder.Instance.ScreenFader.StartFadeIn(StartEnemyIntro);
     }
@@ -89,6 +98,8 @@ public class StoryModeManager : MonoBehaviour, IGameMode
 
     public void StartGameMode()
     {
+        
+
         int nextLevel = GetLevel();
         if (nextLevel == -1)
         {

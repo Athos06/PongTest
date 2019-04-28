@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     public Action OnCountdownFinishedEvent;
     public Action OnGameStarted;
     public Action OnGameOver;
+    public Action<bool> OnGamePause;
+
+    public bool IsGamePause { get; private set; }
+    public bool IsGamePlaying { get; private set; }
 
     [SerializeField]
     private Ball ballPrefab;
@@ -28,8 +32,10 @@ public class GameManager : MonoBehaviour
     private ScoreManager scoreManager;
     [SerializeField]
     private TimerCountdown timerCountdown;
+    public TimerCountdown TimerCountdown { get { return timerCountdown; } }
     [SerializeField]
     private SkillHudController skillHudController;
+    public SkillHudController SKillHudController { get { return skillHudController; } }
     [SerializeField]
     private GameObject HumanPlayerPrefab;
     [SerializeField]
@@ -55,6 +61,7 @@ public class GameManager : MonoBehaviour
     public SavingManager SavingManager { get { return savingManager; } }
 
     private Ball ball;
+    private Coroutine StartingGameCoroutine;
 
     public Ball GetActiveBall()
     {
@@ -78,9 +85,61 @@ public class GameManager : MonoBehaviour
         //StartGame();
     }
 
+
+    public void PauseGame()
+    {
+        if (IsGamePlaying)
+        {
+            Time.timeScale = 0;
+            IsGamePause = true;
+            UIStateManager.Instance.OpenLayout(UILayoutsIDs.PauseLayout, true);
+            if (OnGamePause != null)
+                OnGamePause.Invoke(true);
+        }
+    }
+
+    public void UnPauseGame()
+    {
+        if (IsGamePlaying)
+        {
+            Time.timeScale = 1;
+            IsGamePause = false;
+            UIStateManager.Instance.CloseLastState();
+            if (OnGamePause != null)
+                OnGamePause.Invoke(false);
+        }
+    }
+
+    public void QuitGame()
+    {
+        IsGamePlaying = false;
+
+        if (StartingGameCoroutine != null)
+        {
+            StopCoroutine(StartingGameCoroutine);
+            StartingGameCoroutine = null;
+        }
+
+        timerCountdown.StopTimer();
+        GameOver();
+
+        UnPauseGame();
+
+        ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
+        ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameModeActive.FinishGameMode);
+
+        if (ball != null)
+        {
+            Destroy(ball.gameObject);
+            ball = null;
+        }
+
+        scoreManager.ResetScore();
+    }
+
     public int GetChallengeScore()
     {
-        return challengeModeManager.TimeScore;
+        return TimerCountdown.TimerCurrentTime;
     }
 
     public int[] GetScore()
@@ -90,7 +149,7 @@ public class GameManager : MonoBehaviour
 
     public int GetWinnerPlayer()
     {
-        if(scoreManager.PlayersScore[0] > scoreManager.PlayersScore[1])
+        if (scoreManager.PlayersScore[0] > scoreManager.PlayersScore[1])
         {
             return 0;
         }
@@ -100,6 +159,13 @@ public class GameManager : MonoBehaviour
         }
         //draw
         return -1;
+    }
+
+
+
+    public string GetLevelDescription()
+    {
+        return gameModeActive.GetLevelDescription();
     }
 
     public void StartTimer(TextMeshProUGUI timerText, bool IsCountDown)
@@ -114,6 +180,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGameMode(GameModes gameMode)
     {
+
         if (ball == null)
         {
             ball = Instantiate(ballPrefab);
@@ -133,17 +200,13 @@ public class GameManager : MonoBehaviour
         }
 
         ReferencesHolder.Instance.ScreenFader.StartFadeOut(gameModeActive.StartGameMode);
-
     }
 
     public void StartGame()
     {
+        IsGamePlaying = true;
         ReferencesHolder.Instance.CamerasController.SetGameCameraCamera();
-        StartCoroutine(StartingGame());
-
-        //timerCountdown.StartCountdown(20);
-        //GameObject HumanPlayer = Instantiate(HumanPlayerPrefab);
-        //skillHudController.Initialize(HumanPlayer);
+        StartingGameCoroutine = StartCoroutine(StartingGame());
     }
 
     private IEnumerator StartingGame()
@@ -151,7 +214,7 @@ public class GameManager : MonoBehaviour
         ReferencesHolder.Instance.UIStateManager.OpenPanel(UIPanelsIDs.StartCountDownPanel);
 
         float time = countdown;
-        while(time >= 0)
+        while (time >= 0)
         {
             time -= Time.deltaTime;
             startGameCountdown.CountdownText.text = ((int)time + 1).ToString();
@@ -160,6 +223,7 @@ public class GameManager : MonoBehaviour
 
         ReferencesHolder.Instance.CamerasController.SetGameCameraCamera();
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
+        ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.HUDLayout);
 
         ball.LaunchBall();
 
@@ -181,6 +245,8 @@ public class GameManager : MonoBehaviour
 
     public void FinishGame()
     {
+        IsGamePlaying = false;
+
         if (ball != null)
         {
             Destroy(ball.gameObject);

@@ -30,23 +30,30 @@ public static class LeaderboardSystem
         List<HighScoreData> leadersBoard = new List<HighScoreData>();
 
         string path = Application.persistentDataPath + "/leadersBoard.lb";
-        StreamReader streamReader = new StreamReader(path);
-
-        while (!streamReader.EndOfStream)
+        if (File.Exists(path))
         {
-            //Read one line at a time
-            string objectStream = streamReader.ReadLine();
-            //Convert the Base64 string into byte array
-            byte[] memorydata = Convert.FromBase64String(objectStream);
-            MemoryStream memoryStream = new MemoryStream(memorydata);
-            BinaryFormatter formatter = new BinaryFormatter();
-            //Create object using BinaryFormatter
-            HighScoreData highScore = (HighScoreData)formatter.Deserialize(memoryStream);
+            StreamReader streamReader = new StreamReader(path);
 
-            leadersBoard.Add(highScore);
+            while (!streamReader.EndOfStream)
+            {
+                //Read one line at a time
+                string objectStream = streamReader.ReadLine();
+                //Convert the Base64 string into byte array
+                byte[] memorydata = Convert.FromBase64String(objectStream);
+                MemoryStream memoryStream = new MemoryStream(memorydata);
+                BinaryFormatter formatter = new BinaryFormatter();
+                //Create object using BinaryFormatter
+                HighScoreData highScore = (HighScoreData)formatter.Deserialize(memoryStream);
 
+                leadersBoard.Add(highScore);
+
+            }
+
+            return leadersBoard;
         }
-
-        return leadersBoard;
+        else
+        {
+            return null;
+        }
     }
 }

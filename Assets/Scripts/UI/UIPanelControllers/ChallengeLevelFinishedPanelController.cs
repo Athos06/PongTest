@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UIControl;
-
+using TMPro;
 
 public class ChallengeLevelFinishedPanelController : MonoBehaviour
 {
@@ -12,17 +12,25 @@ public class ChallengeLevelFinishedPanelController : MonoBehaviour
     [SerializeField]
     private Button exitToMainMenuButton;
 
-    private void Start()
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+
+    private void Awake()
     {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        ReferencesHolder.Instance.UIStateManager.OnLayoutOpen += OnLayoutOpen;
         restartButton.onClick.RemoveAllListeners();
-        restartButton.onClick.AddListener(OnContinueButtonClicked);
+        restartButton.onClick.AddListener(OnRestartButtonClicked);
         exitToMainMenuButton.onClick.RemoveAllListeners();
         exitToMainMenuButton.onClick.AddListener(OnExitToMainMenuClicled);
     }
 
-    private void OnContinueButtonClicked()
+    private void OnRestartButtonClicked()
     {
-        //debug
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.GameManager.RestartGame();
     }
@@ -31,7 +39,18 @@ public class ChallengeLevelFinishedPanelController : MonoBehaviour
     {
         ReferencesHolder.Instance.UIStateManager.CloseAll();
         ReferencesHolder.Instance.GameManager.FinishGame();
+    }
 
-        //ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout);
+    private void Populate()
+    {
+        scoreText.text = TimeFormatHelper.GetTimeInFormat(ReferencesHolder.Instance.GameManager.GetChallengeScore());
+    }
+
+    private void OnLayoutOpen(UILayoutsIDs id)
+    {
+        if(id == UILayoutsIDs.ChallengeLevelFinishedLayout)
+        {
+            Populate();
+        }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IGameMode
 {
+    string GetLevelDescription();
     void StartGameMode();
     void GameModeOver();
     void FinishGameMode();
