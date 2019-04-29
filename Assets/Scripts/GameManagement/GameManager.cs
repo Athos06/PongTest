@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     #endregion
     public bool IsGamePaused { get; private set; }
     public bool IsGamePlaying { get; private set; }
-    
+
     [SerializeField]
     private SkillHudController skillHudController;
     public SkillHudController SKillHudController { get { return skillHudController; } }
@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if (IsGamePlaying)
+        if (IsGamePlaying && !IsGamePaused)
         {
             Time.timeScale = 0;
             IsGamePaused = true;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void UnPauseGame()
     {
-        if (IsGamePlaying)
+        if (IsGamePaused)
         {
             Time.timeScale = 1;
             IsGamePaused = false;
@@ -70,14 +70,14 @@ public class GameManager : MonoBehaviour
             StartingGameCoroutine = null;
         }
 
+        IsGamePlaying = false;
         ReferencesHolder.Instance.UIStateManager.ClosePanel(UIPanelsIDs.StartCountDownPanel);
-        ReferencesHolder.Instance.ScreenFader.StartFadeOut( () => 
-        {
-            UnPauseGame();
-            IsGamePlaying = false;
-            gameMode.FinishGameMode();
-            GameOver();
-        });
+        ReferencesHolder.Instance.ScreenFader.StartFadeOut(() =>
+       {
+           UnPauseGame();
+           gameMode.FinishGameMode();
+           GameOver();
+       });
     }
 
     public void StartGameMode(GameModeEnums.GameModes gameMode)

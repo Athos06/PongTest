@@ -48,8 +48,6 @@ public class Ball : MonoBehaviour
                 ballManager.SetNormalSpeed();
                 ChargedShot = false;
             }
-
-
             CharacterController charController = collision.gameObject.GetComponent<CharacterController>();
             if (charController.SkillController.IsSkillActive) {
                 ChargedShot = true;

@@ -38,19 +38,20 @@ public class BallManager : MonoBehaviour
 
         Vector3 rigidbodyVelocity = ActiveBall.RigidBody.velocity;
 
-        if (Mathf.Abs(rigidbodyVelocity.z) < ballCurrentMinSpeed)
+        if (Mathf.Abs(rigidbodyVelocity.normalized.z * ballCurrentMinSpeed) < ballCurrentMinSpeed)
         {
-            Vector3 velocity = rigidbodyVelocity;
             if (rigidbodyVelocity.z < 0)
             {
-                velocity.z = -ballCurrentMinSpeed;
+                //rigidbodyVelocity.z = rigidbodyVelocity.normalized.z * ballCurrentMinSpeed;
+                rigidbodyVelocity.z = -ballCurrentMinSpeed;
             }
             else
             {
-                velocity.z = ballCurrentMinSpeed;
+                //rigidbodyVelocity.z = rigidbodyVelocity.normalized.z * ballCurrentMinSpeed;
+                rigidbodyVelocity.z = ballCurrentMinSpeed;
             }
 
-            ActiveBall.RigidBody.velocity = velocity;
+            ActiveBall.RigidBody.velocity = rigidbodyVelocity;
 
         }
     }

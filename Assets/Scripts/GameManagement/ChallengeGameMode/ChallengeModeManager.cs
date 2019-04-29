@@ -154,6 +154,7 @@ public class ChallengeModeManager : MonoBehaviour, IGameMode
         storyModeScoreboard.SetActive(true);
         ballManager.DestroyBall();
         timerCountdown.StopTimer();
+        difficultyController.Stop();
         ReferencesHolder.Instance.CamerasController.SetMainMenuCamera();
         ReferencesHolder.Instance.ScreenFader.StartFadeIn
             (() => { ReferencesHolder.Instance.UIStateManager.OpenLayout(UILayoutsIDs.MainMenuLayout); });
